@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { Hyperlink } from "../atoms/hyperlink";
 
 const LandingPage = () => {
   return (
@@ -9,6 +10,9 @@ const LandingPage = () => {
       <header>Header</header>
       <main>
         <h1>Formula UI</h1>
+        <p>
+          <Hyperlink title="Manager Page" href="/manager" />
+        </p>
       </main>
       <footer>Footer</footer>
     </>
