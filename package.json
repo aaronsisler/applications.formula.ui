@@ -10,14 +10,17 @@
     "gen:page": "node ./node_modules/@ebsolutions/generate-react-templates --type=PAGE"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "classnames": "^2.3.1",
     "next": "^11.0.0",
+    "next-redux-wrapper": "^7.0.2",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-preset-env": "^6.7.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.4",
     "redux": "^4.1.0",
+    "redux-devtools-extension": "^2.13.9",
     "tailwindcss": "^2.1.4"
   },
   "devDependencies": {
