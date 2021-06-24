@@ -1,6 +1,7 @@
 //Action Types
 export const INCREMENT_COUNTER = "INCREMENT_COUNTER";
 export const DECREMENT_COUNTER = "DECREMENT_COUNTER";
+export const RESET_COUNTER = "RESET_COUNTER";
 
 //Action Creator
 export const incrementCounter = () => ({
@@ -9,4 +10,8 @@ export const incrementCounter = () => ({
 
 export const decrementCounter = () => ({
   type: DECREMENT_COUNTER
+});
+
+export const resetCounter = () => ({
+  type: RESET_COUNTER
 });

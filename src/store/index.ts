@@ -1,52 +1,36 @@
 import { useMemo } from "react";
-import { createStore, applyMiddleware } from "redux";
+import {
+  createStore,
+  applyMiddleware,
+  Store,
+  EmptyObject,
+  AnyAction
+} from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-let store;
+import rootReducer from "../reducers/root";
+
+let store: Store<{ count: number }, any> | Store<EmptyObject, AnyAction>;
+
+export interface IState {
+  count: number;
+}
 
 const initialState = {
-  lastUpdate: 0,
-  light: false,
   count: 0
-};
-
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "TICK":
-      return {
-        ...state,
-        lastUpdate: action.lastUpdate,
-        light: !!action.light
-      };
-    case "INCREMENT":
-      return {
-        ...state,
-        count: state.count + 1
-      };
-    case "DECREMENT":
-      return {
-        ...state,
-        count: state.count - 1
-      };
-    case "RESET":
-      return {
-        ...state,
-        count: initialState.count
-      };
-    default:
-      return state;
-  }
 };
 
 function initStore(preloadedState = initialState) {
   return createStore(
-    reducer,
+    rootReducer,
     preloadedState,
     composeWithDevTools(applyMiddleware())
   );
 }
 
-export const initializeStore = (preloadedState) => {
+export const initializeStore = (
+  preloadedState: { count: number } | undefined
+) => {
   let _store = store ?? initStore(preloadedState);
 
   // After navigating to a page with an initial Redux state, merge that state
@@ -57,7 +41,7 @@ export const initializeStore = (preloadedState) => {
       ...preloadedState
     });
     // Reset the current store
-    store = undefined;
+    store = useStore(initialState);
   }
 
   // For SSG and SSR always create a new store
@@ -68,7 +52,7 @@ export const initializeStore = (preloadedState) => {
   return _store;
 };
 
-export function useStore(initialState) {
+export function useStore(initialState: { count: number } | undefined) {
   const store = useMemo(() => initializeStore(initialState), [initialState]);
   return store;
 }

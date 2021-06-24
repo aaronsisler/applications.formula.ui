@@ -1,8 +1,16 @@
+import React from "react";
 import { Provider } from "react-redux";
 import { useStore } from "../store";
 
-export default function App({ Component, pageProps }) {
-  const store = useStore(pageProps.initialReduxState);
+interface IApp {
+  Component: React.ComponentClass;
+  pageProps: {
+    initialState: any;
+  };
+}
+
+export default function App({ Component, pageProps }: IApp) {
+  const store = useStore(pageProps.initialState);
 
   return (
     <Provider store={store}>
