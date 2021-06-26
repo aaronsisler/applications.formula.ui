@@ -6,7 +6,7 @@ import {
   RESET_COUNTER
 } from "../actions/counter";
 
-const counterReducer = (state = 0, action: AnyAction) => {
+const counterReducer = (state: number = 0, action: AnyAction) => {
   switch (action.type) {
     case INCREMENT_COUNTER:
       return state + 1;

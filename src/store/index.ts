@@ -20,13 +20,13 @@ const initialState = {
   count: 0
 };
 
-function initStore(preloadedState = initialState) {
-  return createStore(
+const initStore = (preloadedState = initialState) =>
+   createStore(
     rootReducer,
     preloadedState,
     composeWithDevTools(applyMiddleware())
   );
-}
+
 
 export const initializeStore = (
   preloadedState: { count: number } | undefined
@@ -52,7 +52,5 @@ export const initializeStore = (
   return _store;
 };
 
-export function useStore(initialState: { count: number } | undefined) {
-  const store = useMemo(() => initializeStore(initialState), [initialState]);
-  return store;
-}
+export const useStore = (initialState: { count: number } | undefined) => 
+   useMemo(() => initializeStore(initialState), [initialState]);
