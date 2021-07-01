@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 
-import { IState } from "../store";
+import { IState } from "../store/initial-state";
 import {
   incrementCounter,
   decrementCounter,

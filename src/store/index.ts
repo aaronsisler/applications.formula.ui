@@ -6,30 +6,24 @@ import {
   EmptyObject,
   AnyAction
 } from "redux";
+import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
+import { IState, initialState } from "./initial-state";
 import rootReducer from "../reducers/root";
 
-let store: Store<{ count: number }, any> | Store<EmptyObject, AnyAction>;
-
-export interface IState {
-  count: number;
-}
-
-const initialState = {
-  count: 0
-};
+let store: Store<IState, any> | Store<EmptyObject, AnyAction>;
 
 const initStore = (preloadedState = initialState) =>
-   createStore(
+  createStore(
     rootReducer,
     preloadedState,
-    composeWithDevTools(applyMiddleware())
+    composeWithDevTools(applyMiddleware(thunk))
   );
 
-
 export const initializeStore = (
-  preloadedState: { count: number } | undefined
+  // preloadedState: { count: number } | undefined
+  preloadedState: IState
 ) => {
   let _store = store ?? initStore(preloadedState);
 
@@ -52,5 +46,5 @@ export const initializeStore = (
   return _store;
 };
 
-export const useStore = (initialState: { count: number } | undefined) => 
-   useMemo(() => initializeStore(initialState), [initialState]);
+export const useStore = (initialState: IState) =>
+  useMemo(() => initializeStore(initialState), [initialState]);
