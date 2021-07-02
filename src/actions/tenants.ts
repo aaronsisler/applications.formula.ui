@@ -49,12 +49,12 @@ export const fetchTenants: ActionCreator<
   ): Promise<AnyAction> => {
     try {
       const { user }: { user: User } = getState();
-      const result: User = await axios.get(
+      const { data }: { data: UserTenant[] } = await axios.get(
         `${API_SERVICE_URL}/user/tenant/${user.userId}`,
         { headers }
       );
-      console.log(result);
-      return dispatch(fetchTenantsSuccess(result));
+      console.log(data);
+      return dispatch(fetchTenantsSuccess(data));
     } catch (e) {
       return dispatch(fetchTenantsFailure());
     }

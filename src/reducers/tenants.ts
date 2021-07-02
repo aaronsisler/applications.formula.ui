@@ -10,7 +10,7 @@ import { UserTenant } from "../models/user-tenant";
 const tenantsReducer = (state: UserTenant[] = [], action: AnyAction) => {
   switch (action.type) {
     case FETCH_TENANTS_SUCCESS:
-      return { ...action.payload };
+      return action.payload;
     default:
       return state;
   }
