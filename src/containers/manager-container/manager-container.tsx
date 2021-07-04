@@ -1,5 +1,4 @@
 import React from "react";
-
 import { useSelector, useDispatch } from "react-redux";
 
 import { IState } from "../../store/initial-state";
