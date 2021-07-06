@@ -6,5 +6,3 @@ export interface User {
   lastName?: string;
   tenants?: UserTenant[];
 }
-
-// { userId: "123", firstName: "Aaron", lastName: "Sisler" }

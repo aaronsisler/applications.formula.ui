@@ -1,6 +1,6 @@
+import axios from "axios";
 import { AnyAction, ActionCreator } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
-import axios from "axios";
 
 import { API_SERVICE_URL } from "../config";
 import { User } from "../models/user";
@@ -54,7 +54,7 @@ export const fetchTenants: ActionCreator<
     try {
       const { user }: { user: User } = getState();
       const { data }: { data: UserTenant[] } = await axios.get(
-        `${API_SERVICE_URL}/user/tenant/${user.userId}`,
+        `${API_SERVICE_URL}/user/${user.userId}/tenant`,
         { headers }
       );
       console.log(data);
