@@ -10,11 +10,18 @@ const headers = {
 };
 
 //Action Types
+export const CLEAR_TENANT = "CLEAR_TENANT";
 export const FETCH_TENANT = "FETCH_TENANT";
 export const FETCH_TENANT_SUCCESS = "FETCH_TENANT_SUCCESS";
 export const FETCH_TENANT_FAILURE = "FETCH_TENANT_FAILURE";
 
 //Action Creator
+export const clearTenant = () => {
+  return {
+    type: CLEAR_TENANT
+  };
+};
+
 export const fetchTenantRequest = () => {
   return {
     type: FETCH_TENANT
