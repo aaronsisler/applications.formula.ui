@@ -1,13 +1,8 @@
-import axios from "axios";
 import { AnyAction, ActionCreator } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { API_SERVICE_URL } from "../config";
 import { Tenant } from "../models/tenant";
-
-const headers = {
-  "Content-Type": "application/json"
-};
+import { HttpClient } from "../utils/http-client";
 
 //Action Types
 export const CLEAR_TENANT = "CLEAR_TENANT";
@@ -52,12 +47,8 @@ export const fetchTenant: ActionCreator<
     getState: any
   ): Promise<AnyAction> => {
     try {
-      const { data }: { data: Tenant } = await axios.get(
-        `${API_SERVICE_URL}/tenant/${tenantId}`,
-        { headers }
-      );
-      console.log(data);
-      return dispatch(fetchTenantSuccess(data));
+      const tenant: Tenant = await new HttpClient().get(`tenant/${tenantId}`);
+      return dispatch(fetchTenantSuccess(tenant));
     } catch (e) {
       return dispatch(fetchTenantFailure());
     }

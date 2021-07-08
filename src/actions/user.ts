@@ -1,14 +1,9 @@
-import axios from "axios";
 import { AnyAction, ActionCreator } from "redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
-import { API_SERVICE_URL } from "../config";
 import { User } from "../models/user";
 import { UserTenant } from "../models/user-tenant";
-
-const headers = {
-  "Content-Type": "application/json"
-};
+import { HttpClient } from "../utils/http-client";
 
 //Action Types
 export const SET_USER = "SET_USER";
@@ -53,12 +48,10 @@ export const fetchTenants: ActionCreator<
   ): Promise<AnyAction> => {
     try {
       const { user }: { user: User } = getState();
-      const { data }: { data: UserTenant[] } = await axios.get(
-        `${API_SERVICE_URL}/user/${user.userId}/tenant`,
-        { headers }
+      const userTenants: UserTenant[] = await new HttpClient().get(
+        `user/${user.userId}/tenant`
       );
-      console.log(data);
-      return dispatch(fetchTenantsSuccess(data));
+      return dispatch(fetchTenantsSuccess(userTenants));
     } catch (e) {
       return dispatch(fetchTenantsFailure());
     }
