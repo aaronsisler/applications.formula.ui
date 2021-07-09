@@ -7,11 +7,7 @@ import TenantContainer, {
 const TenantPage = (): JSX.Element => {
   const router = useRouter();
   const { tenantId }: ITenantContainer = router.query;
-  return (
-    <main>
-      <TenantContainer tenantId={tenantId} />
-    </main>
-  );
+  return <main>{tenantId && <TenantContainer tenantId={tenantId} />}</main>;
 };
 
 export default TenantPage;

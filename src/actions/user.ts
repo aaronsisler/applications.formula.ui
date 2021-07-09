@@ -7,9 +7,8 @@ import { HttpClient } from "../utils/http-client";
 
 //Action Types
 export const SET_USER = "SET_USER";
-export const FETCH_TENANTS = "FETCH_TENANTS";
-export const FETCH_TENANTS_SUCCESS = "FETCH_TENANTS_SUCCESS";
-export const FETCH_TENANTS_FAILURE = "FETCH_TENANTS_FAILURE";
+export const FETCH_USER_TENANTS_SUCCESS = "FETCH_USER_TENANTS_SUCCESS";
+export const FETCH_USER_TENANTS_FAILURE = "FETCH_USER_TENANTS_FAILURE";
 
 //Action Creator
 export const setUser = (user: User) => ({
@@ -17,24 +16,18 @@ export const setUser = (user: User) => ({
   payload: user
 });
 
-export const fetchTenantsRequest = () => {
-  return {
-    type: FETCH_TENANTS
-  };
-};
-
 export const fetchTenantsSuccess: ActionCreator<AnyAction> = (
   userTenants: UserTenant[]
 ) => {
   return {
-    type: FETCH_TENANTS_SUCCESS,
+    type: FETCH_USER_TENANTS_SUCCESS,
     payload: userTenants
   };
 };
 
 export const fetchTenantsFailure = () => {
   return {
-    type: FETCH_TENANTS_FAILURE
+    type: FETCH_USER_TENANTS_FAILURE
   };
 };
 

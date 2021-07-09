@@ -1,10 +1,15 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { IState } from "../../store/initial-state";
-import { clearTenant, fetchTenant } from "../../actions/tenant";
+import {
+  clearTenant,
+  fetchTenant,
+  fetchApplications
+} from "../../actions/tenant";
 import { Hyperlink } from "../../atoms/hyperlink";
 import { Tenant } from "../../models/tenant";
+import { TenantApplication } from "../../models/tenant-application";
+import { IState } from "../../store/initial-state";
 
 export interface ITenantContainer {
   tenantId?: string;
@@ -13,25 +18,34 @@ export interface ITenantContainer {
 const TenantContainer = ({ tenantId }: ITenantContainer): JSX.Element => {
   const tenant: Tenant = useSelector((state: IState) => state.tenant);
   const dispatch = useDispatch();
-  const unloadTenant = async () => dispatch(clearTenant());
+  const loadApplications = async () => dispatch(fetchApplications());
   const loadTenant = async () => dispatch(fetchTenant(tenantId));
+  const unloadTenant = async () => dispatch(clearTenant());
 
   useEffect(() => {
-    loadTenant();
+    loadTenant().then(loadApplications);
+
+    return () => {
+      unloadTenant();
+    };
   }, [dispatch]);
 
   return (
     <div>
       <h1>Tenant Page</h1>
+      <p>
+        <Hyperlink title="Back to Manager Page" href="/manager" />
+      </p>
       <p>Tenant Id: {tenant?.tenantId}</p>
       <p>Tenant Name: {tenant?.tenantName}</p>
-      <p>
-        <Hyperlink
-          title="Back to Manager Page"
-          href="/manager"
-          onClick={unloadTenant}
-        />
-      </p>
+      {tenant?.applications?.map((tenantApplication: TenantApplication) => (
+        <p key={tenantApplication.applicationId}>
+          <Hyperlink
+            title={`Application: ${tenantApplication.applicationName}`}
+            href={`/application/${tenantApplication.applicationId}`}
+          />
+        </p>
+      ))}
     </div>
   );
 };
