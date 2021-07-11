@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 
-import ApplicationContainer, {
+import {
+  ApplicationContainer,
   IApplicationContainer
 } from "../../containers/application-container";
 

@@ -11,7 +11,9 @@ export interface ITenantContainer {
   tenantId?: string;
 }
 
-const TenantContainer = ({ tenantId }: ITenantContainer): JSX.Element => {
+export const TenantContainer = ({
+  tenantId
+}: ITenantContainer): JSX.Element => {
   const tenant: Tenant = useSelector((state: IState) => state.tenant);
   const dispatch = useDispatch();
   const loadTenant = async () => dispatch(fetchTenant(tenantId));
@@ -44,5 +46,3 @@ const TenantContainer = ({ tenantId }: ITenantContainer): JSX.Element => {
     </div>
   );
 };
-
-export default TenantContainer;

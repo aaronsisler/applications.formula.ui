@@ -11,7 +11,7 @@ export interface IApplicationContainer {
   applicationId?: string;
 }
 
-const ApplicationContainer = ({
+export const ApplicationContainer = ({
   applicationId
 }: IApplicationContainer): JSX.Element => {
   const application: Application = useSelector(
@@ -48,5 +48,3 @@ const ApplicationContainer = ({
     </div>
   );
 };
-
-export default ApplicationContainer;

@@ -1,4 +1,4 @@
-import ManagerContainer from "../containers/manager-container";
+import { ManagerContainer } from "../containers/manager-container";
 
 const ManagerPage = (): JSX.Element => (
   <main>

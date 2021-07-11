@@ -1,1 +1,1 @@
-export { default } from "./manager-container";
+export { ManagerContainer } from "./manager-container";

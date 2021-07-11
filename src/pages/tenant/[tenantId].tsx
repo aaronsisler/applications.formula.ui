@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
 
-import TenantContainer, {
-  ITenantContainer
+import {
+  ITenantContainer,
+  TenantContainer
 } from "../../containers/tenant-container";
 
 const TenantPage = (): JSX.Element => {

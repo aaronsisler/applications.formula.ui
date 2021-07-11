@@ -9,7 +9,7 @@ import { Hyperlink } from "../../atoms/hyperlink";
 
 const userMock = { userId: "123", firstName: "Aaron", lastName: "Sisler" };
 
-const ManagerContainer = (): JSX.Element => {
+export const ManagerContainer = (): JSX.Element => {
   const user: User = useSelector((state: IState) => state.user);
   const dispatch = useDispatch();
   const loadUser = async () => dispatch(setUser(userMock));
@@ -35,5 +35,3 @@ const ManagerContainer = (): JSX.Element => {
     </div>
   );
 };
-
-export default ManagerContainer;
