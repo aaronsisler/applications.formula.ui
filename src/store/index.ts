@@ -21,10 +21,7 @@ const initStore = (preloadedState = initialState) =>
     composeWithDevTools(applyMiddleware(thunk))
   );
 
-export const initializeStore = (
-  // preloadedState: { count: number } | undefined
-  preloadedState: IState
-) => {
+export const initializeStore = (preloadedState: IState) => {
   let _store = store ?? initStore(preloadedState);
 
   // After navigating to a page with an initial Redux state, merge that state
