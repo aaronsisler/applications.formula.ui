@@ -6,6 +6,7 @@ import { Hyperlink } from "../../atoms/hyperlink";
 import { Application } from "../../models/application";
 import { ApplicationField } from "../../models/application-field";
 import { IState } from "../../store/initial-state";
+import { InputFieldComponentMapper } from "../../utils/input-field-component-mapper";
 
 export interface IApplicationContainer {
   applicationId?: string;
@@ -29,6 +30,8 @@ export const ApplicationContainer = ({
     };
   }, [dispatch]);
 
+  const inputFieldComponentMapper = new InputFieldComponentMapper();
+
   return (
     <div>
       <h1>Application Page</h1>
@@ -40,8 +43,10 @@ export const ApplicationContainer = ({
       {application?.applicationFields?.map(
         (applicationField: ApplicationField) => (
           <div key={applicationField.applicationFieldId}>
-            <p>Sequence: {applicationField.applicationSequence}</p>
-            <p>Input Field Type: {applicationField.inputFieldType}</p>
+            {inputFieldComponentMapper.getInputField(
+              applicationField.inputFieldType,
+              () => ({})
+            )}
           </div>
         )
       )}

@@ -9,10 +9,10 @@ interface IInput {
 
 const Input = ({ label, name, refProp }: IInput): JSX.Element => (
   <div className="input">
-    <input name={name} ref={refProp} type="text" />
     <label htmlFor={name} className="input__label">
       <span className="input__span">{label}</span>
     </label>
+    <input name={name} ref={refProp} type="text" />
   </div>
 );
 

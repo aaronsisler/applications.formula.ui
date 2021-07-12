@@ -1,3 +1,5 @@
 export enum InputFieldType {
-  NAME
+  EMAIL = "EMAIL",
+  NAME = "NAME",
+  PHONE_NUMBER = "PHONE_NUMBER"
 }
