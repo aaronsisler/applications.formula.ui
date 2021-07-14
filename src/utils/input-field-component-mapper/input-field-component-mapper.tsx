@@ -1,21 +1,36 @@
-import React from "react";
+import React, { ChangeEventHandler, FocusEventHandler } from "react";
 import { InputFieldType } from "../../models/input-field-type";
 import { NameInputField } from "../../components/input-fields/name-input-field";
+import { ApplicationField } from "../../models/application-field";
 
-const emptyDiv = (): JSX.Element => {
-  return <div>Empty</div>;
+const unknownType = (): JSX.Element => {
+  return <div>Unknown</div>;
 };
 
+interface IRegister {
+  name: string;
+  onBlur: FocusEventHandler;
+  onChange: ChangeEventHandler;
+  ref: any;
+}
+
 export class InputFieldComponentMapper {
-  getInputField = (
-    inputFieldType: InputFieldType,
-    refProp: any
+  static getInputField = (
+    applicationField: ApplicationField,
+    register: IRegister
   ): JSX.Element => {
-    switch (inputFieldType) {
-      case InputFieldType.NAME:
-        return NameInputField({ refProp });
+    switch (applicationField.inputFieldType) {
+      case InputFieldType.NAME__FIRST:
+      case InputFieldType.NAME__LAST:
+        const { name, onBlur, onChange, ref } = register;
+        const { inputFieldLabel = "taco-label" } = applicationField;
+
+        return NameInputField(
+          { name, onBlur, onChange, label: inputFieldLabel },
+          ref
+        );
       default:
-        return emptyDiv();
+        return unknownType();
     }
   };
 }

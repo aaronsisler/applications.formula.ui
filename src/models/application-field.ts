@@ -5,4 +5,6 @@ export interface ApplicationField {
   applicationFieldId?: string;
   applicationSequence: number;
   inputFieldType: InputFieldType;
+  inputFieldLabel: string;
+  inputFieldName: string;
 }

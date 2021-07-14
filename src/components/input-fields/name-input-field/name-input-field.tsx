@@ -1,20 +1,33 @@
-import React from "react";
-import PropTypes from "prop-types";
-
+import React, { ChangeEventHandler, FocusEventHandler } from "react";
 import { Input } from "../../../atoms/input";
 
 interface INameInputField {
-  refProp: any;
+  label?: string;
+  name?: string;
+  onBlur?: FocusEventHandler;
+  onChange?: ChangeEventHandler;
 }
 
-const NameInputField = ({ refProp }: INameInputField): JSX.Element => (
-  <div className="name-input-field">
-    <Input label="Name" name="name-input-field" refProp={refProp} />
-  </div>
-);
-
-NameInputField.propTypes = {
-  refProp: PropTypes.func.isRequired
+const NameInputField = (
+  {
+    label = "",
+    name = "",
+    onBlur = () => ({}),
+    onChange = () => ({})
+  }: INameInputField,
+  ref: any
+): JSX.Element => {
+  return (
+    <div className="name-input-field">
+      <Input
+        label={label}
+        name={name}
+        onBlur={onBlur}
+        onChange={onChange}
+        refProp={ref}
+      />
+    </div>
+  );
 };
 
 export { NameInputField };

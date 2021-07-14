@@ -39,7 +39,7 @@ export const TenantContainer = ({
         <p key={tenantApplication.applicationId}>
           <Hyperlink
             title={`Application: ${tenantApplication.applicationName}`}
-            href={`/application/${tenantApplication.applicationId}`}
+            href={`/apply/${tenantApplication.applicationId}`}
           />
         </p>
       ))}

@@ -3,21 +3,21 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { clearApplication, fetchApplication } from "../../actions/application";
 import { Hyperlink } from "../../atoms/hyperlink";
+import { ApplyForm } from "../../components/apply-form";
 import { Application } from "../../models/application";
-import { ApplicationField } from "../../models/application-field";
 import { IState } from "../../store/initial-state";
-import { InputFieldComponentMapper } from "../../utils/input-field-component-mapper";
 
-export interface IApplicationContainer {
+export interface IApplyContainer {
   applicationId?: string;
 }
 
-export const ApplicationContainer = ({
+export const ApplyContainer = ({
   applicationId
-}: IApplicationContainer): JSX.Element => {
+}: IApplyContainer): JSX.Element => {
   const application: Application = useSelector(
     (state: IState) => state.application
   );
+
   const dispatch = useDispatch();
   const loadApplication = async () => dispatch(fetchApplication(applicationId));
   const unloadApplication = async () => dispatch(clearApplication());
@@ -30,8 +30,6 @@ export const ApplicationContainer = ({
     };
   }, [dispatch]);
 
-  const inputFieldComponentMapper = new InputFieldComponentMapper();
-
   return (
     <div>
       <h1>Application Page</h1>
@@ -40,16 +38,7 @@ export const ApplicationContainer = ({
       </p>
       <p>Application Id: {application?.applicationId}</p>
       <p>Application Name: {application?.applicationName}</p>
-      {application?.applicationFields?.map(
-        (applicationField: ApplicationField) => (
-          <div key={applicationField.applicationFieldId}>
-            {inputFieldComponentMapper.getInputField(
-              applicationField.inputFieldType,
-              () => ({})
-            )}
-          </div>
-        )
-      )}
+      <ApplyForm applicationFields={application?.applicationFields} />
     </div>
   );
 };
