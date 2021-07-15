@@ -23,7 +23,7 @@ export class InputFieldComponentMapper {
       case InputFieldType.NAME__FIRST:
       case InputFieldType.NAME__LAST:
         const { name, onBlur, onChange, ref } = register;
-        const { inputFieldLabel = "taco-label" } = applicationField;
+        const { inputFieldLabel } = applicationField;
 
         return NameInputField(
           { name, onBlur, onChange, label: inputFieldLabel },

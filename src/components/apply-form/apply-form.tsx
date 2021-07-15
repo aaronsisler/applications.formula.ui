@@ -1,6 +1,5 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { NameInputField } from "../input-fields/name-input-field";
 import { ApplicationField } from "../../models/application-field";
 import { InputFieldComponentMapper } from "../../utils/input-field-component-mapper";
 

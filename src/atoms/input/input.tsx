@@ -18,7 +18,7 @@ const Input = ({
 }: IInput): JSX.Element => (
   <div className="input">
     <label htmlFor={name} className="input__label">
-      <span className="input__span">{label}</span>
+      <span className="input__span">{label}:&nbsp;</span>
     </label>
     <input
       name={name}
