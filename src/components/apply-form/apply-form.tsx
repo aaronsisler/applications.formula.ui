@@ -26,7 +26,7 @@ const ApplyForm = ({ applicationFields }: IApplyForm): JSX.Element => {
           <React.Fragment key={applicationField.applicationFieldId}>
             {InputFieldComponentMapper.getInputField(
               applicationField,
-              register(applicationField.inputFieldName)
+              register
             )}
             <br />
           </React.Fragment>
