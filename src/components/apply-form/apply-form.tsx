@@ -16,7 +16,18 @@ const ApplyForm = ({ applicationFields }: IApplyForm): JSX.Element => {
     mode: "onBlur"
   });
 
-  const onSubmit = (data: any) => console.log(data);
+  const onSubmit = (data: any) => {
+    console.log(data);
+    const dataObject: any = {};
+    applicationFields?.forEach((applicationField: ApplicationField) => {
+      dataObject[applicationField.inputFieldName] = {
+        ...applicationField,
+        inputFieldValue: data[applicationField.inputFieldName]
+      };
+    });
+    console.log(dataObject);
+  };
+
   return (
     <div className="apply-form">
       <p>Is Dirty: {`${isDirty}`}</p>
