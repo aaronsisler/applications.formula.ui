@@ -35,6 +35,17 @@ export const TenantContainer = ({
       </p>
       <p>Tenant Id: {tenant?.tenantId}</p>
       <p>Tenant Name: {tenant?.tenantName}</p>
+      <p>Applicants</p>
+      {tenant?.applications?.map((tenantApplication: TenantApplication) => (
+        <p key={tenantApplication.applicationId}>
+          <Hyperlink
+            title={`Application: ${tenantApplication.applicationName}`}
+            href={`/applicants/${tenantApplication.applicationId}`}
+          />
+        </p>
+      ))}
+
+      <p>Submit Application</p>
       {tenant?.applications?.map((tenantApplication: TenantApplication) => (
         <p key={tenantApplication.applicationId}>
           <Hyperlink
