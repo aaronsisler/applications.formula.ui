@@ -11,7 +11,7 @@ const applicantReducer = (state: Applicant = {}, action: AnyAction) => {
     case CLEAR_APPLICANT:
       return null;
     case FETCH_APPLICANT_PDF_URL_SUCCESS:
-      return { ...state, ...action.payload };
+      return { ...state, applicantPdfSignedUrl: action.payload };
     default:
       return state;
   }

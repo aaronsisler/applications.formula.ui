@@ -34,14 +34,17 @@ export const fetchApplicationFailure: ActionCreator<AnyAction> = () => {
 // Actions
 export const fetchApplication: ActionCreator<
   ThunkAction<Promise<AnyAction>, {}, {}, AnyAction>
-> = (applicationId: string) => {
+> = (applicationId: string, withFields: boolean) => {
   return async (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
     getState: any
   ): Promise<AnyAction> => {
     try {
+      const queryParams = withFields
+        ? "?withFields=true"
+        : "?withApplicants=true";
       const application: Application = await new HttpClient().get(
-        `application/${applicationId}`
+        `application/${applicationId}/${queryParams}`
       );
       return dispatch(fetchApplicationSuccess(application));
     } catch (e) {
