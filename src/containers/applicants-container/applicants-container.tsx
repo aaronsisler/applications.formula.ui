@@ -62,19 +62,30 @@ export const ApplicantsContainer = ({
       <p>Application Id: {application?.applicationId}</p>
       <p>Application Name: {application?.applicationName}</p>
       <a href={applicant?.applicantPdfSignedUrl} ref={linkRef} hidden />
-      {application?.applicants?.map(
-        (applicationApplicant: ApplicationApplicant) => (
-          <p key={applicationApplicant.applicantId}>
-            <button
-              onClick={() =>
-                loadApplicantPdfUrl(applicationApplicant.applicantId)
-              }
-            >
-              {applicationApplicant.applicantName}
-            </button>
-          </p>
-        )
-      )}
+      <table>
+        <thead>
+          <tr>
+            <th>Applicant Name</th>
+            <th>Date Submitted</th>
+          </tr>
+        </thead>
+        <tbody>
+          {application?.applicants?.map(
+            (applicationApplicant: ApplicationApplicant) => (
+              <tr key={applicationApplicant.applicantId}>
+                <td
+                  onClick={() =>
+                    loadApplicantPdfUrl(applicationApplicant.applicantId)
+                  }
+                >
+                  {applicationApplicant.applicantName}
+                </td>
+                <td>{applicationApplicant.dateSubmitted}</td>
+              </tr>
+            )
+          )}
+        </tbody>
+      </table>
     </div>
   );
 };

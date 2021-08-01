@@ -19,7 +19,8 @@ export const ApplyContainer = ({
   );
 
   const dispatch = useDispatch();
-  const loadApplication = async () => dispatch(fetchApplication(applicationId));
+  const loadApplication = async () =>
+    dispatch(fetchApplication(applicationId, true));
   const unloadApplication = async () => dispatch(clearApplication());
 
   useEffect(() => {
@@ -34,11 +35,17 @@ export const ApplyContainer = ({
     <div>
       <h1>Application Page</h1>
       <p>
-        <Hyperlink title="Back to Tenant Page" href="/manager" />
+        <Hyperlink
+          title="Back to Tenant Page"
+          href={`/tenant/${application?.tenantId}`}
+        />
       </p>
       <p>Application Id: {application?.applicationId}</p>
       <p>Application Name: {application?.applicationName}</p>
-      <ApplyForm applicationFields={application?.applicationFields} />
+      <ApplyForm
+        applicationId={application?.applicationId}
+        applicationFields={application?.applicationFields}
+      />
     </div>
   );
 };

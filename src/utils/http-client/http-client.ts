@@ -10,4 +10,8 @@ export class HttpClient {
     const { data } = await axios.get(`${API_SERVICE_URL}/${path}`, { headers });
     return data;
   };
+
+  post = async (path: string, data: any) => {
+    return await axios.post(`${API_SERVICE_URL}/${path}`, data, { headers });
+  };
 }
