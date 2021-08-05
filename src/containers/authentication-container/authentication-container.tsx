@@ -2,10 +2,11 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { clearUser, fetchUser } from "../../actions/user";
-import { User } from "../../models/user";
-import { IState } from "../../store/initial-state";
+import { Hyperlink } from "../../atoms/hyperlink";
 import { LoginButton } from "../../components/login-button";
 import { LogoutButton } from "../../components/logout-button";
+import { User } from "../../models/user";
+import { IState } from "../../store/initial-state";
 
 const userMock = { userId: "123" };
 
@@ -22,7 +23,6 @@ export const AuthenticationContainer = ({
   if (!user?.userId) {
     return (
       <div className="authentication-containter">
-        {children}
         <button onClick={() => loadUser(userMock.userId)}>
           Click me to load User
         </button>
@@ -32,9 +32,8 @@ export const AuthenticationContainer = ({
   }
   return (
     <div className="authentication-containter">
-      <h1>{user.lastName}</h1>
-      <button onClick={unloadUser}>Click me to clear User</button>
       <LogoutButton unloadUser={unloadUser} />
+      {children}
     </div>
   );
 };

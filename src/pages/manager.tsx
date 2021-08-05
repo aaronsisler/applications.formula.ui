@@ -1,8 +1,11 @@
+import { AuthenticationContainer } from "../containers/authentication-container";
 import { ManagerContainer } from "../containers/manager-container";
 
 const ManagerPage = (): JSX.Element => (
   <main>
-    <ManagerContainer />
+    <AuthenticationContainer>
+      <ManagerContainer />
+    </AuthenticationContainer>
   </main>
 );
 

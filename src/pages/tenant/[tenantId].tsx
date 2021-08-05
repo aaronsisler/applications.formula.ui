@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 
+import { AuthenticationContainer } from "../../containers/authentication-container";
 import {
   ITenantContainer,
   TenantContainer
@@ -8,7 +9,13 @@ import {
 const TenantPage = (): JSX.Element => {
   const router = useRouter();
   const { tenantId }: ITenantContainer = router.query;
-  return <main>{tenantId && <TenantContainer tenantId={tenantId} />}</main>;
+  return (
+    <main>
+      <AuthenticationContainer>
+        {tenantId && <TenantContainer tenantId={tenantId} />}
+      </AuthenticationContainer>
+    </main>
+  );
 };
 
 export default TenantPage;
