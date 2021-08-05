@@ -69,9 +69,13 @@ export const fetchUser: ActionCreator<
     getState: any
   ): Promise<AnyAction> => {
     try {
-      const fullUser: User = await new HttpClient().get(`user/${userId}`);
+      const user: User = await new HttpClient().get(`user/${userId}`);
 
-      return dispatch(fetchUserSucess(fullUser));
+      // if (!user.userId) {
+      //   return dispatch(fetchUserFailure());
+      // }
+
+      return dispatch(fetchUserSucess(user));
     } catch (e) {
       return dispatch(fetchUserFailure());
     }
