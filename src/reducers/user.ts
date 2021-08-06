@@ -3,18 +3,29 @@ import { AnyAction } from "redux";
 import {
   CLEAR_USER,
   FETCH_USER_TENANTS_SUCCESS,
+  FETCH_USER_FAILURE,
   FETCH_USER_SUCESS
 } from "../actions/user";
-import { User } from "../models/user";
+import { UserState } from "../store/user";
 
-const userReducer = (state: User = null!, action: AnyAction) => {
+export const userInitialState: UserState = {
+  isAuthorized: false,
+  data: null!
+};
+
+const userReducer = (
+  state: UserState = userInitialState,
+  action: AnyAction
+) => {
   switch (action.type) {
     case FETCH_USER_SUCESS:
-      return { ...state, ...action.payload };
+      return { ...state, isAuthorized: true, data: action.payload };
+    case FETCH_USER_FAILURE:
+      return { ...state, isAuthorized: false, data: null };
     case FETCH_USER_TENANTS_SUCCESS:
-      return { ...state, tenants: action.payload };
+      return { ...state, data: { ...state.data, tenants: action.payload } };
     case CLEAR_USER:
-      return null;
+      return userInitialState;
     default:
       return state;
   }

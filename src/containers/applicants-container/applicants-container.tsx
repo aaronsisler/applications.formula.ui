@@ -8,7 +8,7 @@ import { Hyperlink } from "../../atoms/hyperlink";
 import { Applicant } from "../../models/applicant";
 import { Application } from "../../models/application";
 import { ApplicationApplicant } from "../../models/application-applicant";
-import { IState } from "../../store/initial-state";
+import { AppState } from "../../store";
 
 export interface IApplicantsContainer {
   applicationId?: string;
@@ -17,9 +17,11 @@ export interface IApplicantsContainer {
 export const ApplicantsContainer = ({
   applicationId
 }: IApplicantsContainer): JSX.Element => {
-  const applicant: Applicant = useSelector((state: IState) => state.applicant);
+  const applicant: Applicant = useSelector(
+    (state: AppState) => state.applicant
+  );
   const application: Application = useSelector(
-    (state: IState) => state.application
+    (state: AppState) => state.application
   );
 
   const linkRef = useRef<HTMLAnchorElement>(null);

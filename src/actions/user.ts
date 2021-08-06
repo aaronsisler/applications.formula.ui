@@ -3,6 +3,7 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { User } from "../models/user";
 import { UserTenant } from "../models/user-tenant";
+import { UserState } from "../store";
 import { HttpClient } from "../utils/http-client";
 
 //Action Types
@@ -50,9 +51,9 @@ export const fetchTenants: ActionCreator<
     getState: any
   ): Promise<AnyAction> => {
     try {
-      const { user }: { user: User } = getState();
+      const { user }: { user: UserState } = getState();
       const userTenants: UserTenant[] = await new HttpClient().get(
-        `user/${user.userId}/tenant`
+        `user/${user?.data?.userId}/tenant`
       );
       return dispatch(fetchTenantsSuccess(userTenants));
     } catch (e) {

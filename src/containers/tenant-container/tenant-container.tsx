@@ -5,7 +5,7 @@ import { clearTenant, fetchTenant } from "../../actions/tenant";
 import { Hyperlink } from "../../atoms/hyperlink";
 import { Tenant } from "../../models/tenant";
 import { TenantApplication } from "../../models/tenant-application";
-import { IState } from "../../store/initial-state";
+import { AppState } from "../../store";
 
 export interface ITenantContainer {
   tenantId?: string;
@@ -14,7 +14,7 @@ export interface ITenantContainer {
 export const TenantContainer = ({
   tenantId
 }: ITenantContainer): JSX.Element => {
-  const tenant: Tenant = useSelector((state: IState) => state.tenant);
+  const tenant: Tenant = useSelector((state: AppState) => state.tenant);
   const dispatch = useDispatch();
   const loadTenant = async () => dispatch(fetchTenant(tenantId));
   const unloadTenant = async () => dispatch(clearTenant());

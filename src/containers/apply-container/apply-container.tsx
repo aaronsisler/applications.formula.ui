@@ -5,7 +5,7 @@ import { clearApplication, fetchApplication } from "../../actions/application";
 import { Hyperlink } from "../../atoms/hyperlink";
 import { ApplyForm } from "../../components/apply-form";
 import { Application } from "../../models/application";
-import { IState } from "../../store/initial-state";
+import { AppState } from "../../store";
 
 export interface IApplyContainer {
   applicationId?: string;
@@ -15,7 +15,7 @@ export const ApplyContainer = ({
   applicationId
 }: IApplyContainer): JSX.Element => {
   const application: Application = useSelector(
-    (state: IState) => state.application
+    (state: AppState) => state.application
   );
 
   const dispatch = useDispatch();
