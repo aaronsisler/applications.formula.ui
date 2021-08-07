@@ -1,19 +1,20 @@
 import { Applicant } from "../models/applicant";
 import { Application } from "../models/application";
-import { Tenant } from "../models/tenant";
+import { applicationInitialState } from "../reducers/application";
+import { tenantInitialState } from "../reducers/tenant";
 import { userInitialState } from "../reducers/user";
-import { UserState } from "../store/user";
+import { ApplicationState, TenantState, UserState } from "../store";
 
 export interface AppState {
   applicant: Applicant;
-  application: Application;
-  tenant: Tenant;
+  application: ApplicationState;
+  tenant: TenantState;
   user: UserState;
 }
 
 export const initialState = {
   applicant: {},
-  application: {},
-  tenant: {},
+  application: applicationInitialState,
+  tenant: tenantInitialState,
   user: userInitialState
 };

@@ -5,10 +5,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { clearApplicant, fetchApplicantPdfUrl } from "../../actions/applicant";
 import { clearApplication, fetchApplication } from "../../actions/application";
 import { Hyperlink } from "../../atoms/hyperlink";
+import { Loading } from "../../components/loading";
 import { Applicant } from "../../models/applicant";
-import { Application } from "../../models/application";
 import { ApplicationApplicant } from "../../models/application-applicant";
-import { AppState } from "../../store";
+import { ApplicationState, AppState } from "../../store";
 
 export interface IApplicantsContainer {
   applicationId?: string;
@@ -20,7 +20,7 @@ export const ApplicantsContainer = ({
   const applicant: Applicant = useSelector(
     (state: AppState) => state.applicant
   );
-  const application: Application = useSelector(
+  const { data: application, isLoading }: ApplicationState = useSelector(
     (state: AppState) => state.application
   );
 
@@ -51,6 +51,10 @@ export const ApplicantsContainer = ({
       downloadApplicantPdf();
     }
   }, [dispatch, applicant]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div>

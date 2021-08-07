@@ -1,14 +1,31 @@
 import { AnyAction } from "redux";
 
-import { CLEAR_TENANT, FETCH_TENANT_SUCCESS } from "../actions/tenant";
-import { Tenant } from "../models/tenant";
+import {
+  CLEAR_TENANT,
+  FETCH_TENANT_FAILURE,
+  FETCH_TENANT_REQUEST,
+  FETCH_TENANT_SUCCESS
+} from "../actions/tenant";
+import { TenantState } from "../store";
 
-const tenantReducer = (state: Tenant = null!, action: AnyAction) => {
+export const tenantInitialState: TenantState = {
+  isLoading: false,
+  data: null!
+};
+
+const tenantReducer = (
+  state: TenantState = tenantInitialState,
+  action: AnyAction
+) => {
   switch (action.type) {
+    case FETCH_TENANT_REQUEST:
+      return { ...state, isLoading: true, data: null };
     case FETCH_TENANT_SUCCESS:
-      return { ...action.payload };
+      return { ...state, isLoading: false, data: action.payload };
+    case FETCH_TENANT_FAILURE:
+      return { ...state, isLoading: false, data: null };
     case CLEAR_TENANT:
-      return null!;
+      return tenantInitialState;
     default:
       return state;
   }

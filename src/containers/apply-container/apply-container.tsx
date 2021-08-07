@@ -4,8 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { clearApplication, fetchApplication } from "../../actions/application";
 import { Hyperlink } from "../../atoms/hyperlink";
 import { ApplyForm } from "../../components/apply-form";
-import { Application } from "../../models/application";
-import { AppState } from "../../store";
+import { Loading } from "../../components/loading";
+import { ApplicationState, AppState } from "../../store";
 
 export interface IApplyContainer {
   applicationId?: string;
@@ -14,7 +14,7 @@ export interface IApplyContainer {
 export const ApplyContainer = ({
   applicationId
 }: IApplyContainer): JSX.Element => {
-  const application: Application = useSelector(
+  const { data: application, isLoading }: ApplicationState = useSelector(
     (state: AppState) => state.application
   );
 
@@ -30,6 +30,10 @@ export const ApplyContainer = ({
       unloadApplication();
     };
   }, [dispatch]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div>

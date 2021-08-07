@@ -7,17 +7,30 @@ import { HttpClient } from "../utils/http-client";
 
 //Action Types
 export const CLEAR_TENANT = "CLEAR_TENANT";
-export const FETCH_TENANT_SUCCESS = "FETCH_TENANT_SUCCESS";
 export const FETCH_TENANT_FAILURE = "FETCH_TENANT_FAILURE";
-export const FETCH_TENANT_APPLICATIONS_SUCCESS =
-  "FETCH_TENANT_APPLICATIONS_SUCCESS";
+export const FETCH_TENANT_REQUEST = "FETCH_TENANT_REQUEST";
+export const FETCH_TENANT_SUCCESS = "FETCH_TENANT_SUCCESS";
 export const FETCH_TENANT_APPLICATIONS_FAILURE =
   "FETCH_TENANT_APPLICATIONS_FAILURE";
+export const FETCH_TENANT_APPLICATIONS_SUCCESS =
+  "FETCH_TENANT_APPLICATIONS_SUCCESS";
 
 //Action Creator
 export const clearTenant = () => {
   return {
     type: CLEAR_TENANT
+  };
+};
+
+export const fetchTenantFailure: ActionCreator<AnyAction> = () => {
+  return {
+    type: FETCH_TENANT_FAILURE
+  };
+};
+
+export const fetchTenantRequest: ActionCreator<AnyAction> = () => {
+  return {
+    type: FETCH_TENANT_REQUEST
   };
 };
 
@@ -30,9 +43,9 @@ export const fetchTenantSuccess: ActionCreator<AnyAction> = (
   };
 };
 
-export const fetchTenantFailure: ActionCreator<AnyAction> = () => {
+export const fetchApplicationsFailure: ActionCreator<AnyAction> = () => {
   return {
-    type: FETCH_TENANT_FAILURE
+    type: FETCH_TENANT_APPLICATIONS_FAILURE
   };
 };
 
@@ -45,13 +58,9 @@ export const fetchApplicationsSuccess: ActionCreator<AnyAction> = (
   };
 };
 
-export const fetchApplicationsFailure: ActionCreator<AnyAction> = () => {
-  return {
-    type: FETCH_TENANT_APPLICATIONS_FAILURE
-  };
-};
-
 // Actions
+// TODO This might not be needed in the long run.
+// Not being used currently given API is returning entire tenant
 export const fetchApplications: ActionCreator<
   ThunkAction<Promise<AnyAction>, {}, {}, AnyAction>
 > = () => {
@@ -78,6 +87,7 @@ export const fetchTenant: ActionCreator<
     getState: any
   ): Promise<AnyAction> => {
     try {
+      dispatch(fetchTenantRequest());
       const tenant: Tenant = await new HttpClient().get(`tenant/${tenantId}`);
       return dispatch(fetchTenantSuccess(tenant));
     } catch (e) {

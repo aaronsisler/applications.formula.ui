@@ -8,19 +8,15 @@ import { HttpClient } from "../utils/http-client";
 
 //Action Types
 export const CLEAR_USER = "CLEAR_USER";
-export const FETCH_USER_SUCESS = "FETCH_USER_SUCESS";
 export const FETCH_USER_FAILURE = "FETCH_USER_FAILURE";
-export const FETCH_USER_TENANTS_SUCCESS = "FETCH_USER_TENANTS_SUCCESS";
+export const FETCH_USER_SUCESS = "FETCH_USER_SUCESS";
 export const FETCH_USER_TENANTS_FAILURE = "FETCH_USER_TENANTS_FAILURE";
+export const FETCH_USER_TENANTS_REQUEST = "FETCH_USER_TENANTS_REQUEST";
+export const FETCH_USER_TENANTS_SUCCESS = "FETCH_USER_TENANTS_SUCCESS";
 
 //Action Creator
 export const clearUser = () => ({
   type: CLEAR_USER
-});
-
-export const fetchUserSucess = (user: User) => ({
-  type: FETCH_USER_SUCESS,
-  payload: user
 });
 
 export const fetchUserFailure = (isAuthenticated: boolean = false) => ({
@@ -28,18 +24,29 @@ export const fetchUserFailure = (isAuthenticated: boolean = false) => ({
   payload: isAuthenticated
 });
 
+export const fetchUserSucess = (user: User) => ({
+  type: FETCH_USER_SUCESS,
+  payload: user
+});
+
+export const fetchTenantsFailure = () => {
+  return {
+    type: FETCH_USER_TENANTS_FAILURE
+  };
+};
+
+export const fetchTenantsRequest = () => {
+  return {
+    type: FETCH_USER_TENANTS_REQUEST
+  };
+};
+
 export const fetchTenantsSuccess: ActionCreator<AnyAction> = (
   userTenants: UserTenant[]
 ) => {
   return {
     type: FETCH_USER_TENANTS_SUCCESS,
     payload: userTenants
-  };
-};
-
-export const fetchTenantsFailure = () => {
-  return {
-    type: FETCH_USER_TENANTS_FAILURE
   };
 };
 
@@ -52,6 +59,7 @@ export const fetchTenants: ActionCreator<
     getState: any
   ): Promise<AnyAction> => {
     try {
+      dispatch(fetchTenantsRequest());
       const { user }: { user: UserState } = getState();
       const userTenants: UserTenant[] = await new HttpClient().get(
         `user/${user?.data?.userId}/tenant`

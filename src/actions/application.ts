@@ -7,14 +7,21 @@ import { HttpClient } from "../utils/http-client";
 
 //Action Types
 export const CLEAR_APPLICATION = "CLEAR_APPLICATION";
-export const FETCH_APPLICATION_SUCCESS = "FETCH_APPLICATION_SUCCESS";
 export const FETCH_APPLICATION_FAILURE = "FETCH_APPLICATION_FAILURE";
+export const FETCH_APPLICATION_REQUEST = "FETCH_APPLICATION_REQUEST";
+export const FETCH_APPLICATION_SUCCESS = "FETCH_APPLICATION_SUCCESS";
 export const SUBMIT_APPLICATION_SUCCESS = "SUBMIT_APPLICATION_SUCCESS";
 
 //Action Creator
 export const clearApplication = () => {
   return {
     type: CLEAR_APPLICATION
+  };
+};
+
+export const fetchApplicationRequest: ActionCreator<AnyAction> = () => {
+  return {
+    type: FETCH_APPLICATION_REQUEST
   };
 };
 
@@ -48,6 +55,7 @@ export const fetchApplication: ActionCreator<
     getState: any
   ): Promise<AnyAction> => {
     try {
+      dispatch(fetchApplicationRequest());
       const queryParams = withFields
         ? "?withFields=true"
         : "?withApplicants=true";

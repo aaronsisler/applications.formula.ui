@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { clearTenant, fetchTenant } from "../../actions/tenant";
 import { Hyperlink } from "../../atoms/hyperlink";
-import { Tenant } from "../../models/tenant";
+import { Loading } from "../../components/loading";
 import { TenantApplication } from "../../models/tenant-application";
-import { AppState } from "../../store";
+import { AppState, TenantState } from "../../store";
 
 export interface ITenantContainer {
   tenantId?: string;
@@ -14,7 +14,9 @@ export interface ITenantContainer {
 export const TenantContainer = ({
   tenantId
 }: ITenantContainer): JSX.Element => {
-  const tenant: Tenant = useSelector((state: AppState) => state.tenant);
+  const { data: tenant, isLoading }: TenantState = useSelector(
+    (state: AppState) => state.tenant
+  );
   const dispatch = useDispatch();
   const loadTenant = async () => dispatch(fetchTenant(tenantId));
   const unloadTenant = async () => dispatch(clearTenant());
@@ -26,6 +28,10 @@ export const TenantContainer = ({
       unloadTenant();
     };
   }, [dispatch]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div>

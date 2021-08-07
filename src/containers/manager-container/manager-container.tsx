@@ -3,12 +3,13 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { fetchTenants } from "../../actions/user";
 import { Hyperlink } from "../../atoms/hyperlink";
+import { Loading } from "../../components/loading";
 import { UserTenant } from "../../models/user-tenant";
 import { AppState } from "../../store";
 import { UserState } from "../../store/user";
 
 export const ManagerContainer = (): JSX.Element => {
-  const { data: user }: UserState = useSelector(
+  const { data: user, isLoading }: UserState = useSelector(
     (state: AppState) => state.user
   );
   const dispatch = useDispatch();
@@ -17,6 +18,10 @@ export const ManagerContainer = (): JSX.Element => {
   useEffect(() => {
     loadTenants();
   }, [dispatch]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div>
