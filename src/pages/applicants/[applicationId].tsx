@@ -4,13 +4,16 @@ import {
   ApplicantsContainer,
   IApplicantsContainer
 } from "../../containers/applicants-container";
+import { AuthenticationContainer } from "../../containers/authentication-container";
 
 const ApplicationPage = (): JSX.Element => {
   const router = useRouter();
   const { applicationId }: IApplicantsContainer = router.query;
   return (
     <main>
-      {applicationId && <ApplicantsContainer applicationId={applicationId} />}
+      <AuthenticationContainer>
+        {applicationId && <ApplicantsContainer applicationId={applicationId} />}
+      </AuthenticationContainer>
     </main>
   );
 };
