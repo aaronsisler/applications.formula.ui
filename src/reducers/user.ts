@@ -9,6 +9,7 @@ import {
 import { UserState } from "../store/user";
 
 export const userInitialState: UserState = {
+  isAuthenticated: false,
   isAuthorized: false,
   data: null!
 };
@@ -19,9 +20,19 @@ const userReducer = (
 ) => {
   switch (action.type) {
     case FETCH_USER_SUCESS:
-      return { ...state, isAuthorized: true, data: action.payload };
+      return {
+        ...state,
+        isAuthenticated: true,
+        isAuthorized: true,
+        data: action.payload
+      };
     case FETCH_USER_FAILURE:
-      return { ...state, isAuthorized: false, data: null };
+      return {
+        ...state,
+        isAuthenticated: action.payload,
+        isAuthorized: false,
+        data: null
+      };
     case FETCH_USER_TENANTS_SUCCESS:
       return { ...state, data: { ...state.data, tenants: action.payload } };
     case CLEAR_USER:

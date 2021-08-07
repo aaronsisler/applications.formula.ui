@@ -23,8 +23,9 @@ export const fetchUserSucess = (user: User) => ({
   payload: user
 });
 
-export const fetchUserFailure = () => ({
-  type: FETCH_USER_FAILURE
+export const fetchUserFailure = (isAuthenticated: boolean = false) => ({
+  type: FETCH_USER_FAILURE,
+  payload: isAuthenticated
 });
 
 export const fetchTenantsSuccess: ActionCreator<AnyAction> = (
@@ -72,9 +73,9 @@ export const fetchUser: ActionCreator<
     try {
       const user: User = await new HttpClient().get(`user/${userId}`);
 
-      // if (!user.userId) {
-      //   return dispatch(fetchUserFailure());
-      // }
+      if (!user.userId) {
+        return dispatch(fetchUserFailure(true));
+      }
 
       return dispatch(fetchUserSucess(user));
     } catch (e) {
