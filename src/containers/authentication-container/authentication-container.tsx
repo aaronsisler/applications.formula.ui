@@ -1,9 +1,11 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import cn from "classnames";
 
 import { clearUser, fetchUser } from "../../actions/user";
 import { LoginButton } from "../../components/login-button";
 import { LogoutButton } from "../../components/logout-button";
+import { Navbar } from "../../components/navbar";
 import { AppState, UserState } from "../../store";
 
 export const AuthenticationContainer = ({
@@ -20,9 +22,11 @@ export const AuthenticationContainer = ({
   const unloadUser = async () => dispatch(clearUser());
   const loadUser = async (userId: string) => dispatch(fetchUser(userId));
 
+  const baseClass = "authentication-container bg-indigo-100 h-full flex ";
+
   if (!isAuthenticated) {
     return (
-      <div className="authentication-containter">
+      <div className={cn(baseClass, "p-10 justify-center")}>
         <LoginButton loadUser={loadUser} />
       </div>
     );
@@ -30,20 +34,23 @@ export const AuthenticationContainer = ({
 
   if (!isAuthorized) {
     return (
-      <div className="authentication-containter">
-        <p>
+      <div className={cn(baseClass, "p-10 flex-col items-center")}>
+        <div className="mb-8 text-center">
           You are not authorized to see this page. Did you mean to login with
           another account?
-        </p>
-        <LoginButton loadUser={loadUser} />
+        </div>
+        <div className="flex space-x-4">
+          <LoginButton loadUser={loadUser} />
+          <LogoutButton unloadUser={unloadUser} />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="authentication-containter">
-      <LogoutButton unloadUser={unloadUser} />
-      {children}
+    <div className={cn(baseClass, "flex-col")}>
+      <Navbar />
+      <div className="p-2">{children}</div>
     </div>
   );
 };

@@ -25,6 +25,7 @@ export const LoginButton = ({ loadUser }: ILoginButton): JSX.Element => {
         onFailure={onFailure}
         cookiePolicy="single_host_origin"
         isSignedIn={true}
+        className="flex-none mx-auto"
       />
     </div>
   );
