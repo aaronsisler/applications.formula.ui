@@ -4,9 +4,17 @@ import {
   CLEAR_APPLICANT,
   FETCH_APPLICANT_PDF_URL_SUCCESS
 } from "../actions/applicant";
-import { Applicant } from "../models/applicant";
+import { ApplicantState } from "../store";
 
-const applicantReducer = (state: Applicant = {}, action: AnyAction) => {
+export const applicantInitialState: ApplicantState = {
+  applicantId: undefined,
+  applicantPdfSignedUrl: undefined
+};
+
+const applicantReducer = (
+  state: ApplicantState = applicantInitialState,
+  action: AnyAction
+) => {
   switch (action.type) {
     case CLEAR_APPLICANT:
       return null;

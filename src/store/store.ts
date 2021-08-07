@@ -9,12 +9,12 @@ import {
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-import { AppState, initialState } from "./initial-state";
+import { AppState, initialAppState } from "./initial-state";
 import rootReducer from "../reducers/root";
 
 let store: Store<AppState, any> | Store<EmptyObject, AnyAction>;
 
-const initStore = (preloadedState = initialState) =>
+const initStore = (preloadedState: any) =>
   createStore(
     rootReducer,
     preloadedState,
@@ -32,7 +32,7 @@ export const initializeStore = (preloadedState: AppState) => {
       ...preloadedState
     });
     // Reset the current store
-    store = useStore(initialState);
+    store = useStore(initialAppState);
   }
 
   // For SSG and SSR always create a new store
@@ -43,5 +43,5 @@ export const initializeStore = (preloadedState: AppState) => {
   return _store;
 };
 
-export const useStore = (initialState: IState) =>
+export const useStore = (initialState: AppState) =>
   useMemo(() => initializeStore(initialState), [initialState]);
