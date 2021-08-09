@@ -4,26 +4,34 @@ import cn from "classnames";
 import PropTypes from "prop-types";
 
 interface IHyperLink {
+  children?: any;
   className?: string;
   href: string;
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
-  title: string;
+  title?: string;
 }
 
-const Hyperlink = ({ className, href, onClick, title }: IHyperLink) => (
+const Hyperlink = ({
+  children,
+  className,
+  href,
+  onClick,
+  title
+}: IHyperLink) => (
   <NextLink href={href}>
     {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
     <a className={cn("hyperlink", className)} onClick={onClick}>
-      {title}
+      {title ? title : children}
     </a>
   </NextLink>
 );
 
 Hyperlink.propTypes = {
+  children: PropTypes.any,
   className: PropTypes.string,
   href: PropTypes.string.isRequired,
   onClick: PropTypes.func,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string
 };
 
 export { Hyperlink };

@@ -2,7 +2,9 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { fetchTenants } from "../../actions/user";
+import { filingCabinet } from "../../assets/svgs";
 import { Hyperlink } from "../../atoms/hyperlink";
+import { Card } from "../../components/card";
 import { Loading } from "../../components/loading";
 import { UserTenant } from "../../models/user-tenant";
 import { AppState } from "../../store";
@@ -24,18 +26,17 @@ export const ManagerContainer = (): JSX.Element => {
   }
 
   return (
-    <div>
-      <h1>
-        User: <span>{user?.firstName}</span>
-      </h1>
-      {user?.tenants?.map((userTenant: UserTenant) => (
-        <p key={userTenant.tenantId}>
+    <div className="container px-6 py-4 mx-auto">
+      <div className="grid gap-6 mb-8 md:grid-cols-2 lg:grid-cols-3">
+        {user?.tenants?.map((userTenant: UserTenant) => (
           <Hyperlink
-            title={`Tenant ${userTenant.tenantName}`}
+            key={userTenant.tenantId}
             href={`/tenant/${userTenant.tenantId}`}
-          />
-        </p>
-      ))}
+          >
+            <Card content={userTenant.tenantName} icon={filingCabinet} />
+          </Hyperlink>
+        ))}
+      </div>
     </div>
   );
 };
