@@ -4,11 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { clearApplicant, fetchApplicantPdfUrl } from "../../actions/applicant";
 import { clearApplication, fetchApplication } from "../../actions/application";
-import { Hyperlink } from "../../atoms/hyperlink";
+import { ApplicantTableRow } from "../../components/applicant-table-row";
 import { Loading } from "../../components/loading";
-import { Applicant } from "../../models/applicant";
 import { ApplicationApplicant } from "../../models/application-applicant";
-import { ApplicationState, AppState } from "../../store";
+import { ApplicantState, ApplicationState, AppState } from "../../store";
 
 export interface IApplicantsContainer {
   applicationId?: string;
@@ -17,7 +16,7 @@ export interface IApplicantsContainer {
 export const ApplicantsContainer = ({
   applicationId
 }: IApplicantsContainer): JSX.Element => {
-  const applicant: Applicant = useSelector(
+  const applicantState: ApplicantState = useSelector(
     (state: AppState) => state.applicant
   );
   const { data: application, isLoading }: ApplicationState = useSelector(
@@ -27,15 +26,18 @@ export const ApplicantsContainer = ({
   const linkRef = useRef<HTMLAnchorElement>(null);
 
   const dispatch = useDispatch();
+  const loadApplication = async () => dispatch(fetchApplication(applicationId));
+  const unloadApplication = async () => dispatch(clearApplication());
+
   const loadApplicantPdfUrl = async (applicantId: string) => {
     dispatch(fetchApplicantPdfUrl(applicantId));
   };
-  const loadApplication = async () => dispatch(fetchApplication(applicationId));
   const unloadApplicant = async () => dispatch(clearApplicant());
-  const unloadApplication = async () => dispatch(clearApplication());
   const downloadApplicantPdf = async () => {
     linkRef.current?.click();
-    unloadApplicant();
+    setTimeout(() => {
+      unloadApplicant();
+    }, 1000);
   };
 
   useEffect(() => {
@@ -47,47 +49,38 @@ export const ApplicantsContainer = ({
   }, [dispatch]);
 
   useEffect(() => {
-    if (applicant && applicant.applicantPdfSignedUrl) {
+    if (applicantState && applicantState.applicantPdfSignedUrl) {
       downloadApplicantPdf();
     }
-  }, [dispatch, applicant]);
+  }, [dispatch, applicantState]);
 
   if (isLoading) {
     return <Loading />;
   }
 
   return (
-    <div>
-      <h1>Applicants Page</h1>
-      <p>
-        <Hyperlink
-          title="Back to Tenant Page"
-          href={`/tenant/${application?.tenantId}`}
-        />
-      </p>
-      <p>Application Id: {application?.applicationId}</p>
-      <p>Application Name: {application?.applicationName}</p>
-      <a href={applicant?.applicantPdfSignedUrl} ref={linkRef} hidden />
-      <table>
+    <div className="pt-5 px-2 max-w-4xl">
+      <a href={applicantState?.applicantPdfSignedUrl} ref={linkRef} hidden />
+      <table className="table-auto min-w-full">
         <thead>
-          <tr>
-            <th>Applicant Name</th>
-            <th>Date Submitted</th>
+          <tr className="bg-indigo-900">
+            <th className="p-2 text-right text-gray-100">Applicant Name</th>
+            <th className="p-2 text-gray-100">Application</th>
+            <th className="p-2 text-gray-100">Date Submitted</th>
           </tr>
         </thead>
         <tbody>
           {application?.applicants?.map(
             (applicationApplicant: ApplicationApplicant) => (
-              <tr key={applicationApplicant.applicantId}>
-                <td
-                  onClick={() =>
-                    loadApplicantPdfUrl(applicationApplicant.applicantId)
-                  }
-                >
-                  {applicationApplicant.applicantName}
-                </td>
-                <td>{applicationApplicant.dateSubmitted}</td>
-              </tr>
+              <ApplicantTableRow
+                key={applicationApplicant.applicantId}
+                applicantName={applicationApplicant.applicantName}
+                isFetchingPdf={applicantState.isLoading}
+                dateSubmitted={applicationApplicant.dateSubmitted}
+                downloadApplication={() =>
+                  loadApplicantPdfUrl(applicationApplicant.applicantId)
+                }
+              />
             )
           )}
         </tbody>

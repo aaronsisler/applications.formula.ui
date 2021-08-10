@@ -22,7 +22,7 @@ export const AuthenticationContainer = ({
   const unloadUser = async () => dispatch(clearUser());
   const loadUser = async (userId: string) => dispatch(fetchUser(userId));
 
-  const baseClass = "authentication-container bg-indigo-100 h-full flex ";
+  const baseClass = "authentication-container h-full flex ";
 
   if (!isAuthenticated) {
     return (
