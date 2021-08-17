@@ -73,15 +73,20 @@ export const fetchTenants: ActionCreator<
 
 export const fetchUser: ActionCreator<
   ThunkAction<Promise<AnyAction>, {}, {}, AnyAction>
-> = (userId: string) => {
+> = (rawUser: User) => {
   return async (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
     getState: any
   ): Promise<AnyAction> => {
     try {
-      const user: User = await new HttpClient().get(`user/${userId}`);
+      if (rawUser && !rawUser.userId) {
+        return dispatch(fetchUserFailure(true));
+      }
 
-      if (!user.userId) {
+      const user: User = await new HttpClient().get(`user/${rawUser.userId}`);
+
+      if (!user.isOnboarded) {
+        await new HttpClient().post(`user/`, rawUser);
         return dispatch(fetchUserFailure(true));
       }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { GoogleLogin, GoogleLoginResponse } from "react-google-login";
+import { GoogleLogin } from "react-google-login";
 
 import { OAUTH_PROVIDER_URL } from "../../config";
 
@@ -9,7 +9,14 @@ interface ILoginButton {
 
 export const LoginButton = ({ loadUser }: ILoginButton): JSX.Element => {
   const onSuccess = (res: any) => {
-    loadUser(res.googleId);
+    const {
+      familyName: lastName,
+      givenName: firstName,
+      email
+    } = res.profileObj;
+
+    const user = { userId: res.googleId, firstName, lastName, email };
+    loadUser(user);
   };
 
   const onFailure = (res: any) => {

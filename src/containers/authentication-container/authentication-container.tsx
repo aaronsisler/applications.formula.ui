@@ -6,6 +6,7 @@ import { clearUser, fetchUser } from "../../actions/user";
 import { LoginButton } from "../../components/login-button";
 import { LogoutButton } from "../../components/logout-button";
 import { Navbar } from "../../components/navbar";
+import { User } from "../../models/user";
 import { AppState, UserState } from "../../store";
 
 export const AuthenticationContainer = ({
@@ -20,7 +21,7 @@ export const AuthenticationContainer = ({
   }: UserState = useSelector((state: AppState) => state.user);
   const dispatch = useDispatch();
   const unloadUser = async () => dispatch(clearUser());
-  const loadUser = async (userId: string) => dispatch(fetchUser(userId));
+  const loadUser = async (user: User) => dispatch(fetchUser(user));
 
   const baseClass = "authentication-container h-full flex ";
 
