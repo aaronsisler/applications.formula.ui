@@ -5,7 +5,7 @@ import {
   FETCH_USER_TENANTS_REQUEST,
   FETCH_USER_TENANTS_SUCCESS,
   FETCH_USER_FAILURE,
-  FETCH_USER_SUCESS
+  FETCH_USER_SUCCESS
 } from "../actions/user";
 import { UserState } from "../store";
 
@@ -21,7 +21,7 @@ const userReducer = (
   action: AnyAction
 ) => {
   switch (action.type) {
-    case FETCH_USER_SUCESS:
+    case FETCH_USER_SUCCESS:
       return {
         ...state,
         isAuthenticated: true,

@@ -8,8 +8,12 @@ import { HttpClient } from "../utils/http-client";
 
 //Action Types
 export const CLEAR_USER = "CLEAR_USER";
+export const CLEAR_USERS = "CLEAR_USERS";
 export const FETCH_USER_FAILURE = "FETCH_USER_FAILURE";
-export const FETCH_USER_SUCESS = "FETCH_USER_SUCESS";
+export const FETCH_USER_SUCCESS = "FETCH_USER_SUCCESS";
+export const FETCH_USERS_FAILURE = "FETCH_USERS_FAILURE";
+export const FETCH_USERS_REQUEST = "FETCH_USERS_REQUEST";
+export const FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS";
 export const FETCH_USER_TENANTS_FAILURE = "FETCH_USER_TENANTS_FAILURE";
 export const FETCH_USER_TENANTS_REQUEST = "FETCH_USER_TENANTS_REQUEST";
 export const FETCH_USER_TENANTS_SUCCESS = "FETCH_USER_TENANTS_SUCCESS";
@@ -19,14 +23,33 @@ export const clearUser = () => ({
   type: CLEAR_USER
 });
 
+export const clearUsers = () => ({
+  type: CLEAR_USERS
+});
+
 export const fetchUserFailure = (isAuthenticated: boolean = false) => ({
   type: FETCH_USER_FAILURE,
   payload: isAuthenticated
 });
 
-export const fetchUserSucess = (user: User) => ({
-  type: FETCH_USER_SUCESS,
+export const fetchUserSuccess = (user: User) => ({
+  type: FETCH_USER_SUCCESS,
   payload: user
+});
+
+export const fetchUsersFailure = () => ({
+  type: FETCH_USERS_FAILURE
+});
+
+export const fetchUsersRequest = () => {
+  return {
+    type: FETCH_USERS_REQUEST
+  };
+};
+
+export const fetchUsersSuccess = (users: User[]) => ({
+  type: FETCH_USERS_SUCCESS,
+  payload: users
 });
 
 export const fetchTenantsFailure = () => {
@@ -76,7 +99,7 @@ export const fetchUser: ActionCreator<
 > = (rawUser: User) => {
   return async (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
-    getState: any
+    _getState: any
   ): Promise<AnyAction> => {
     try {
       if (rawUser && !rawUser.userId) {
@@ -90,9 +113,26 @@ export const fetchUser: ActionCreator<
         return dispatch(fetchUserFailure(true));
       }
 
-      return dispatch(fetchUserSucess(user));
+      return dispatch(fetchUserSuccess(user));
     } catch (e) {
       return dispatch(fetchUserFailure());
+    }
+  };
+};
+
+export const fetchUsers: ActionCreator<
+  ThunkAction<Promise<AnyAction>, {}, {}, AnyAction>
+> = () => {
+  return async (
+    dispatch: ThunkDispatch<{}, {}, AnyAction>,
+    _getState: any
+  ): Promise<AnyAction> => {
+    try {
+      dispatch(fetchUsersRequest());
+      const users: User[] = await new HttpClient().get("users");
+      return dispatch(fetchUsersSuccess(users));
+    } catch (e) {
+      return dispatch(fetchUsersFailure());
     }
   };
 };

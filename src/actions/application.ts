@@ -52,7 +52,7 @@ export const fetchApplication: ActionCreator<
 > = (applicationId: string, withFields: boolean) => {
   return async (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
-    getState: any
+    _getState: any
   ): Promise<AnyAction> => {
     try {
       dispatch(fetchApplicationRequest());
@@ -74,7 +74,7 @@ export const submitApplication: ActionCreator<
 > = (applicationSubmission: ApplicationSubmission) => {
   return async (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
-    getState: any
+    _getState: any
   ): Promise<AnyAction> => {
     try {
       await new HttpClient().post(

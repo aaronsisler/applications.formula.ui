@@ -13,6 +13,9 @@ const LandingPage = () => {
         <p>
           <Hyperlink title="Manager Page" href="/manager" />
         </p>
+        <p>
+          <Hyperlink title="Admin Page" href="/admin" />
+        </p>
       </main>
       <footer>Footer</footer>
     </>

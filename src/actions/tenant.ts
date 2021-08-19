@@ -84,7 +84,7 @@ export const fetchTenant: ActionCreator<
 > = (tenantId: string) => {
   return async (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
-    getState: any
+    _getState: any
   ): Promise<AnyAction> => {
     try {
       dispatch(fetchTenantRequest());
