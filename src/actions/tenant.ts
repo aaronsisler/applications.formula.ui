@@ -71,7 +71,7 @@ export const fetchApplications: ActionCreator<
     try {
       const { tenant }: { tenant: Tenant } = getState();
       const tenantApplications: TenantApplication[] =
-        await new HttpClient().get(`tenant/${tenant.tenantId}/application`);
+        await new HttpClient().get(`tenants/${tenant.tenantId}/applications`);
       return dispatch(fetchApplicationsSuccess(tenantApplications));
     } catch (e) {
       return dispatch(fetchApplicationsFailure());
@@ -88,7 +88,7 @@ export const fetchTenant: ActionCreator<
   ): Promise<AnyAction> => {
     try {
       dispatch(fetchTenantRequest());
-      const tenant: Tenant = await new HttpClient().get(`tenant/${tenantId}`);
+      const tenant: Tenant = await new HttpClient().get(`tenants/${tenantId}`);
       return dispatch(fetchTenantSuccess(tenant));
     } catch (e) {
       return dispatch(fetchTenantFailure());

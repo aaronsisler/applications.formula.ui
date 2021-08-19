@@ -60,7 +60,7 @@ export const fetchApplication: ActionCreator<
         ? "?withFields=true"
         : "?withApplicants=true";
       const application: Application = await new HttpClient().get(
-        `application/${applicationId}/${queryParams}`
+        `applications/${applicationId}/${queryParams}`
       );
       return dispatch(fetchApplicationSuccess(application));
     } catch (e) {
@@ -78,7 +78,7 @@ export const submitApplication: ActionCreator<
   ): Promise<AnyAction> => {
     try {
       await new HttpClient().post(
-        `application-submission`,
+        `application-submissions`,
         applicationSubmission
       );
 

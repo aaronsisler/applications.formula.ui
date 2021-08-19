@@ -62,7 +62,7 @@ export const fetchTenants: ActionCreator<
       dispatch(fetchTenantsRequest());
       const { user }: { user: UserState } = getState();
       const userTenants: UserTenant[] = await new HttpClient().get(
-        `user/${user?.data?.userId}/tenant`
+        `users/${user?.data?.userId}/tenants`
       );
       return dispatch(fetchTenantsSuccess(userTenants));
     } catch (e) {
@@ -83,10 +83,10 @@ export const fetchUser: ActionCreator<
         return dispatch(fetchUserFailure(true));
       }
 
-      const user: User = await new HttpClient().get(`user/${rawUser.userId}`);
+      const user: User = await new HttpClient().get(`users/${rawUser.userId}`);
 
       if (!user.isOnboarded) {
-        await new HttpClient().post(`user/`, rawUser);
+        await new HttpClient().post(`users/`, rawUser);
         return dispatch(fetchUserFailure(true));
       }
 

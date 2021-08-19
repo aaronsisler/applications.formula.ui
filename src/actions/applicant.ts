@@ -51,7 +51,7 @@ export const fetchApplicantPdfUrl: ActionCreator<
     try {
       dispatch(fetchApplicantPdfUrlRequest());
       const applicantPdfUrl: string = await new HttpClient().get(
-        `applicant/${applicantId}`
+        `applicants/${applicantId}/pdf`
       );
       return dispatch(fetchApplicantPdfUrlSuccess(applicantPdfUrl));
     } catch (e) {
