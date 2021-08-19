@@ -23,7 +23,7 @@ export const AuthenticationContainer = ({
   const unloadUser = async () => dispatch(clearUser());
   const loadUser = async (user: User) => dispatch(fetchUser(user));
 
-  const baseClass = "authentication-container h-full flex ";
+  const baseClass = "authentication-container h-full flex";
 
   if (!isAuthenticated) {
     return (

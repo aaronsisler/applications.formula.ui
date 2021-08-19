@@ -10,6 +10,7 @@ import {
 import { UserState } from "../store";
 
 export const userInitialState: UserState = {
+  isAdmin: false,
   isAuthenticated: false,
   isAuthorized: false,
   isLoading: false,
@@ -24,6 +25,7 @@ const userReducer = (
     case FETCH_USER_SUCCESS:
       return {
         ...state,
+        isAdmin: action.payload.isAdmin,
         isAuthenticated: true,
         isAuthorized: true,
         isLoading: false,
