@@ -4,10 +4,14 @@ import cn from "classnames";
 
 import { Loading } from "../../components/loading";
 import { AppState, UserState } from "../../store";
-import { UserPromotionContainer } from "../user-promotion-container";
+
 import { UserType } from "../../models/user-type";
 
-export const AdminContainer = (): JSX.Element => {
+export const AdminContainer = ({
+  children
+}: {
+  children: any;
+}): JSX.Element => {
   const { data: user, isLoading }: UserState = useSelector(
     (state: AppState) => state.user
   );
@@ -28,9 +32,5 @@ export const AdminContainer = (): JSX.Element => {
     );
   }
 
-  return (
-    <div>
-      <UserPromotionContainer />
-    </div>
-  );
+  return <React.Fragment>{children}</React.Fragment>;
 };

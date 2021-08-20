@@ -24,13 +24,13 @@ export const UserPromotionContainer = (): JSX.Element => {
   }
 
   return (
-    <div>
+    <div className="pt-5 px-2 max-w-5xl">
       <table className="table-auto min-w-full">
         <thead>
           <tr className="bg-indigo-900">
             <th className="p-2 text-right text-gray-100">Display Name</th>
-            <th className="p-2 text-gray-100">Email</th>
-            <th className="p-2 text-gray-100">User Type</th>
+            <th className="p-2 text-right text-gray-100">Email</th>
+            <th className="p-2 text-right text-gray-100">User Type</th>
             <th className="p-2 text-gray-100">Date Submitted</th>
           </tr>
         </thead>
