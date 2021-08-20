@@ -3,10 +3,13 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { User } from "../models/user";
 import { UserTenant } from "../models/user-tenant";
+import { UserType } from "../models/user-type";
 import { UserState } from "../store";
 import { HttpClient } from "../utils/http-client";
 
 //Action Types
+export const AUTHORIZE_USER_FAILURE = "AUTHORIZE_USER_FAILURE";
+export const AUTHORIZE_USER_SUCCESS = "AUTHORIZE_USER_SUCCESS";
 export const CLEAR_USER = "CLEAR_USER";
 export const CLEAR_USERS = "CLEAR_USERS";
 export const FETCH_USER_FAILURE = "FETCH_USER_FAILURE";
@@ -19,6 +22,15 @@ export const FETCH_USER_TENANTS_REQUEST = "FETCH_USER_TENANTS_REQUEST";
 export const FETCH_USER_TENANTS_SUCCESS = "FETCH_USER_TENANTS_SUCCESS";
 
 //Action Creator
+export const authorizeUserFailure = () => ({
+  type: AUTHORIZE_USER_FAILURE
+});
+
+export const authorizeUserSuccess = (user: User) => ({
+  type: AUTHORIZE_USER_SUCCESS,
+  payload: user
+});
+
 export const clearUser = () => ({
   type: CLEAR_USER
 });
@@ -94,6 +106,24 @@ export const fetchTenants: ActionCreator<
   };
 };
 
+export const authorizeUser: ActionCreator<
+  ThunkAction<Promise<AnyAction>, {}, {}, AnyAction>
+> = (user: User) => {
+  return async (
+    dispatch: ThunkDispatch<{}, {}, AnyAction>,
+    _getState: any
+  ): Promise<AnyAction> => {
+    try {
+      const promotedUser = { ...user, userType: UserType.MANAGER };
+      await new HttpClient().post("users", promotedUser);
+
+      return dispatch(authorizeUserSuccess(promotedUser));
+    } catch (e) {
+      return dispatch(authorizeUserFailure());
+    }
+  };
+};
+
 export const fetchUser: ActionCreator<
   ThunkAction<Promise<AnyAction>, {}, {}, AnyAction>
 > = (rawUser: User) => {
@@ -107,8 +137,9 @@ export const fetchUser: ActionCreator<
       }
 
       const user: User = await new HttpClient().get(`users/${rawUser.userId}`);
+      console.log(user);
 
-      if (!user.isOnboarded) {
+      if (user.userType === undefined) {
         await new HttpClient().post(`users/`, rawUser);
         return dispatch(fetchUserFailure(true));
       }

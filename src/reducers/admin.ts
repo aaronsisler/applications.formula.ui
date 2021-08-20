@@ -1,11 +1,14 @@
 import { AnyAction } from "redux";
 
 import {
+  AUTHORIZE_USER_FAILURE,
+  AUTHORIZE_USER_SUCCESS,
   CLEAR_USERS,
   FETCH_USERS_FAILURE,
   FETCH_USERS_REQUEST,
   FETCH_USERS_SUCCESS
 } from "../actions/user";
+import { User } from "../models/user";
 import { AdminState } from "../store";
 
 export const adminInitialState: AdminState = {
@@ -32,6 +35,18 @@ const userReducer = (
         ...state,
         isLoading: false,
         users: []
+      };
+    case AUTHORIZE_USER_SUCCESS:
+      const rawUsers: User[] = JSON.parse(JSON.stringify(state.users));
+
+      const users = rawUsers.map((user: User) =>
+        action.payload.userId === user.userId ? action.payload : user
+      );
+
+      return {
+        ...state,
+        isLoading: false,
+        users
       };
     case CLEAR_USERS:
       return { ...state, isLoading: false, users: [] };

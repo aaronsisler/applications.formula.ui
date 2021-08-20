@@ -8,17 +8,16 @@ import { LogoutButton } from "../../components/logout-button";
 import { Navbar } from "../../components/navbar";
 import { User } from "../../models/user";
 import { AppState, UserState } from "../../store";
+import { UserType } from "../../models/user-type";
 
 export const AuthenticationContainer = ({
   children
 }: {
   children: any;
 }): JSX.Element => {
-  const {
-    data: user,
-    isAuthenticated,
-    isAuthorized
-  }: UserState = useSelector((state: AppState) => state.user);
+  const { isAuthenticated, data: user }: UserState = useSelector(
+    (state: AppState) => state.user
+  );
   const dispatch = useDispatch();
   const unloadUser = async () => dispatch(clearUser());
   const loadUser = async (user: User) => dispatch(fetchUser(user));
@@ -33,7 +32,7 @@ export const AuthenticationContainer = ({
     );
   }
 
-  if (!isAuthorized) {
+  if (user?.userType === UserType.VISITOR || undefined) {
     return (
       <div className={cn(baseClass, "p-10 flex-col items-center")}>
         <div className="mb-8 text-center">

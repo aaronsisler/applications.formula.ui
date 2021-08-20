@@ -10,9 +10,7 @@ import {
 import { UserState } from "../store";
 
 export const userInitialState: UserState = {
-  isAdmin: false,
   isAuthenticated: false,
-  isAuthorized: false,
   isLoading: false,
   data: null!
 };
@@ -25,9 +23,7 @@ const userReducer = (
     case FETCH_USER_SUCCESS:
       return {
         ...state,
-        isAdmin: action.payload.isAdmin,
         isAuthenticated: true,
-        isAuthorized: true,
         isLoading: false,
         data: action.payload
       };
@@ -35,7 +31,6 @@ const userReducer = (
       return {
         ...state,
         isAuthenticated: action.payload,
-        isAuthorized: false,
         isLoading: false,
         data: null
       };

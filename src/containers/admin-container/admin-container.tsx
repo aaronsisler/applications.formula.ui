@@ -1,22 +1,16 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import cn from "classnames";
 
-import { fetchUsers } from "../../actions/user";
 import { Loading } from "../../components/loading";
-import { AdminState, AppState, UserState } from "../../store";
+import { AppState, UserState } from "../../store";
+import { UserPromotionContainer } from "../user-promotion-container";
+import { UserType } from "../../models/user-type";
 
 export const AdminContainer = (): JSX.Element => {
-  const { isLoading }: AdminState = useSelector(
-    (state: AppState) => state.admin
+  const { data: user, isLoading }: UserState = useSelector(
+    (state: AppState) => state.user
   );
-  const { isAdmin }: UserState = useSelector((state: AppState) => state.user);
-  const dispatch = useDispatch();
-  const loadUsers = async () => dispatch(fetchUsers());
-
-  useEffect(() => {
-    loadUsers();
-  }, [dispatch]);
 
   if (isLoading) {
     return <Loading />;
@@ -24,7 +18,7 @@ export const AdminContainer = (): JSX.Element => {
 
   const baseClass = "authentication-container h-full flex";
 
-  if (!isAdmin) {
+  if (user?.userType !== UserType.ADMIN) {
     return (
       <div className={cn(baseClass, "p-10 flex-col items-center")}>
         <div className="mb-8 text-center">
@@ -34,5 +28,9 @@ export const AdminContainer = (): JSX.Element => {
     );
   }
 
-  return <div>User Onboarding & Tenant Assignment</div>;
+  return (
+    <div>
+      <UserPromotionContainer />
+    </div>
+  );
 };

@@ -1,8 +1,9 @@
 import { UserTenant } from "./user-tenant";
+import { UserType } from "./user-type";
 
 export interface User {
   userId?: string;
-  isOnboarded: boolean;
+  userType?: UserType;
   firstName?: string;
   lastName?: string;
   email?: string;

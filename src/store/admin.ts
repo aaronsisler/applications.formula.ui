@@ -3,6 +3,6 @@ import { User } from "../models/user";
 
 export interface AdminState {
   isLoading: boolean;
-  tenants?: Tenant[];
-  users?: User[];
+  tenants: Tenant[];
+  users: User[];
 }
