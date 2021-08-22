@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { fetchTenants } from "../../actions/user";
+import { fetchUsersTenants } from "../../actions/user";
 import { filingCabinet } from "../../assets/svgs";
 import { Hyperlink } from "../../atoms/hyperlink";
 import { Card } from "../../components/card";
@@ -15,10 +15,10 @@ export const ManagerContainer = (): JSX.Element => {
     (state: AppState) => state.user
   );
   const dispatch = useDispatch();
-  const loadTenants = async () => dispatch(fetchTenants());
+  const loadUsersTenants = async () => dispatch(fetchUsersTenants());
 
   useEffect(() => {
-    loadTenants();
+    loadUsersTenants();
   }, [dispatch]);
 
   if (isLoading) {

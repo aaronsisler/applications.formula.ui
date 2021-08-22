@@ -1,12 +1,14 @@
 import { AnyAction } from "redux";
 
 import {
+  ADD_USER_TENANT_SUCCESS,
   CLEAR_USER,
   FETCH_USER_TENANTS_REQUEST,
   FETCH_USER_TENANTS_SUCCESS,
   FETCH_USER_FAILURE,
   FETCH_USER_SUCCESS
 } from "../actions/user";
+import { UserTenant } from "../models/user-tenant";
 import { UserState } from "../store";
 
 export const userInitialState: UserState = {

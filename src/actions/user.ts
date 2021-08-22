@@ -17,11 +17,22 @@ export const FETCH_USER_SUCCESS = "FETCH_USER_SUCCESS";
 export const FETCH_USERS_FAILURE = "FETCH_USERS_FAILURE";
 export const FETCH_USERS_REQUEST = "FETCH_USERS_REQUEST";
 export const FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS";
+export const ADD_USER_TENANT_FAILURE = "ADD_USER_TENANT_FAILURE";
+export const ADD_USER_TENANT_SUCCESS = "ADD_USER_TENANT_SUCCESS";
 export const FETCH_USER_TENANTS_FAILURE = "FETCH_USER_TENANTS_FAILURE";
 export const FETCH_USER_TENANTS_REQUEST = "FETCH_USER_TENANTS_REQUEST";
 export const FETCH_USER_TENANTS_SUCCESS = "FETCH_USER_TENANTS_SUCCESS";
 
 //Action Creator
+export const addUserTenantFailure = () => ({
+  type: ADD_USER_TENANT_FAILURE
+});
+
+export const addUserTenantSuccess = (userTenant: UserTenant) => ({
+  type: ADD_USER_TENANT_SUCCESS,
+  payload: userTenant
+});
+
 export const authorizeUserFailure = () => ({
   type: AUTHORIZE_USER_FAILURE
 });
@@ -64,19 +75,19 @@ export const fetchUsersSuccess = (users: User[]) => ({
   payload: users
 });
 
-export const fetchTenantsFailure = () => {
+export const fetchUsersTenantsFailure = () => {
   return {
     type: FETCH_USER_TENANTS_FAILURE
   };
 };
 
-export const fetchTenantsRequest = () => {
+export const fetchUsersTenantsRequest = () => {
   return {
     type: FETCH_USER_TENANTS_REQUEST
   };
 };
 
-export const fetchTenantsSuccess: ActionCreator<AnyAction> = (
+export const fetchUsersTenantsSuccess: ActionCreator<AnyAction> = (
   userTenants: UserTenant[]
 ) => {
   return {
@@ -86,22 +97,22 @@ export const fetchTenantsSuccess: ActionCreator<AnyAction> = (
 };
 
 // Actions
-export const fetchTenants: ActionCreator<
+export const addUserTenant: ActionCreator<
   ThunkAction<Promise<AnyAction>, {}, {}, AnyAction>
-> = () => {
+> = (userTenant: UserTenant) => {
   return async (
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
-    getState: any
+    _getState: any
   ): Promise<AnyAction> => {
     try {
-      dispatch(fetchTenantsRequest());
-      const { user }: { user: UserState } = getState();
-      const userTenants: UserTenant[] = await new HttpClient().get(
-        `users/${user?.data?.userId}/tenants`
+      await new HttpClient().post(
+        `users/${userTenant.userId}/tenants`,
+        userTenant
       );
-      return dispatch(fetchTenantsSuccess(userTenants));
+
+      return dispatch(addUserTenantSuccess(userTenant));
     } catch (e) {
-      return dispatch(fetchTenantsFailure());
+      return dispatch(addUserTenantFailure());
     }
   };
 };
@@ -120,6 +131,26 @@ export const authorizeUser: ActionCreator<
       return dispatch(authorizeUserSuccess(promotedUser));
     } catch (e) {
       return dispatch(authorizeUserFailure());
+    }
+  };
+};
+
+export const fetchUsersTenants: ActionCreator<
+  ThunkAction<Promise<AnyAction>, {}, {}, AnyAction>
+> = () => {
+  return async (
+    dispatch: ThunkDispatch<{}, {}, AnyAction>,
+    getState: any
+  ): Promise<AnyAction> => {
+    try {
+      dispatch(fetchUsersTenantsRequest());
+      const { user }: { user: UserState } = getState();
+      const userTenants: UserTenant[] = await new HttpClient().get(
+        `users/${user?.data?.userId}/tenants`
+      );
+      return dispatch(fetchUsersTenantsSuccess(userTenants));
+    } catch (e) {
+      return dispatch(fetchUsersTenantsFailure());
     }
   };
 };

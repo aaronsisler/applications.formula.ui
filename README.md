@@ -24,6 +24,9 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 ## TODOs
 
 - Creating the assign tenant container
+- Create a way to remove a tenant from a user
 - Having a proper application submission page with loading etc.
+- Add a notification toast for when assign tenant is successfull
+- Have a way to demote a user such that it removes all tenants assigned to them and demotes them to visitor
 - Create an icon version of the logout such that it can fit nicely on the navbar
 - DONE: Find a way to save user id, name, etc. for users who login and need to be added as a manager

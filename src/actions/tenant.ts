@@ -10,6 +10,12 @@ export const CLEAR_TENANT = "CLEAR_TENANT";
 export const FETCH_TENANT_FAILURE = "FETCH_TENANT_FAILURE";
 export const FETCH_TENANT_REQUEST = "FETCH_TENANT_REQUEST";
 export const FETCH_TENANT_SUCCESS = "FETCH_TENANT_SUCCESS";
+
+export const CLEAR_TENANTS = "CLEAR_TENANTS";
+export const FETCH_TENANTS_FAILURE = "FETCH_TENANTS_FAILURE";
+export const FETCH_TENANTS_REQUEST = "FETCH_TENANTS_REQUEST";
+export const FETCH_TENANTS_SUCCESS = "FETCH_TENANTS_SUCCESS";
+
 export const FETCH_TENANT_APPLICATIONS_FAILURE =
   "FETCH_TENANT_APPLICATIONS_FAILURE";
 export const FETCH_TENANT_APPLICATIONS_SUCCESS =
@@ -19,6 +25,12 @@ export const FETCH_TENANT_APPLICATIONS_SUCCESS =
 export const clearTenant = () => {
   return {
     type: CLEAR_TENANT
+  };
+};
+
+export const clearTenants = () => {
+  return {
+    type: CLEAR_TENANTS
   };
 };
 
@@ -43,6 +55,27 @@ export const fetchTenantSuccess: ActionCreator<AnyAction> = (
   };
 };
 
+export const fetchTenantsFailure: ActionCreator<AnyAction> = () => {
+  return {
+    type: FETCH_TENANTS_FAILURE
+  };
+};
+
+export const fetchTenantsRequest: ActionCreator<AnyAction> = () => {
+  return {
+    type: FETCH_TENANTS_REQUEST
+  };
+};
+
+export const fetchTenantsSuccess: ActionCreator<AnyAction> = (
+  tenants: Tenant[]
+) => {
+  return {
+    type: FETCH_TENANTS_SUCCESS,
+    payload: tenants
+  };
+};
+
 export const fetchApplicationsFailure: ActionCreator<AnyAction> = () => {
   return {
     type: FETCH_TENANT_APPLICATIONS_FAILURE
@@ -59,26 +92,6 @@ export const fetchApplicationsSuccess: ActionCreator<AnyAction> = (
 };
 
 // Actions
-// TODO This might not be needed in the long run.
-// Not being used currently given API is returning entire tenant
-export const fetchApplications: ActionCreator<
-  ThunkAction<Promise<AnyAction>, {}, {}, AnyAction>
-> = () => {
-  return async (
-    dispatch: ThunkDispatch<{}, {}, AnyAction>,
-    getState: any
-  ): Promise<AnyAction> => {
-    try {
-      const { tenant }: { tenant: Tenant } = getState();
-      const tenantApplications: TenantApplication[] =
-        await new HttpClient().get(`tenants/${tenant.tenantId}/applications`);
-      return dispatch(fetchApplicationsSuccess(tenantApplications));
-    } catch (e) {
-      return dispatch(fetchApplicationsFailure());
-    }
-  };
-};
-
 export const fetchTenant: ActionCreator<
   ThunkAction<Promise<AnyAction>, {}, {}, AnyAction>
 > = (tenantId: string) => {
@@ -92,6 +105,24 @@ export const fetchTenant: ActionCreator<
       return dispatch(fetchTenantSuccess(tenant));
     } catch (e) {
       return dispatch(fetchTenantFailure());
+    }
+  };
+};
+
+export const fetchTenants: ActionCreator<
+  ThunkAction<Promise<AnyAction>, {}, {}, AnyAction>
+> = () => {
+  return async (
+    dispatch: ThunkDispatch<{}, {}, AnyAction>,
+    _getState: any
+  ): Promise<AnyAction> => {
+    try {
+      dispatch(fetchTenantsRequest());
+      const tenants: Tenant[] = await new HttpClient().get("tenants");
+
+      return dispatch(fetchTenantsSuccess(tenants));
+    } catch (e) {
+      return dispatch(fetchTenantsFailure());
     }
   };
 };
