@@ -14,7 +14,7 @@ export interface IApplyContainer {
 export const ApplyContainer = ({
   applicationId
 }: IApplyContainer): JSX.Element => {
-  const { data: application, isLoading }: ApplicationState = useSelector(
+  const { isLoading, hasSubmitted }: ApplicationState = useSelector(
     (state: AppState) => state.application
   );
 
@@ -35,21 +35,14 @@ export const ApplyContainer = ({
     return <Loading />;
   }
 
-  return (
-    <div>
-      <h1>Application Page</h1>
-      <p>
-        <Hyperlink
-          title="Back to Tenant Page"
-          href={`/tenant/${application?.tenantId}`}
-        />
-      </p>
-      <p>Application Id: {application?.applicationId}</p>
-      <p>Application Name: {application?.applicationName}</p>
-      <ApplyForm
-        applicationId={application?.applicationId}
-        applicationFields={application?.applicationFields}
-      />
-    </div>
-  );
+  if (hasSubmitted) {
+    return (
+      <div className="px-4 py-16 text-center grid gap-3">
+        <p>Your application has been submitted.</p>
+        <p>We will contact you about your application shortly.</p>
+      </div>
+    );
+  }
+
+  return <ApplyForm />;
 };

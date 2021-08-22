@@ -3,7 +3,9 @@ import { AnyAction } from "redux";
 import {
   CLEAR_APPLICATION,
   FETCH_APPLICATION_REQUEST,
-  FETCH_APPLICATION_SUCCESS
+  FETCH_APPLICATION_SUCCESS,
+  SUBMIT_APPLICATION_REQUEST,
+  SUBMIT_APPLICATION_SUCCESS
 } from "../actions/application";
 import { Application } from "../models/application";
 import { ApplicationApplicant } from "../models/application-applicant";
@@ -11,7 +13,9 @@ import { ApplicationField } from "../models/application-field";
 import { ApplicationState } from "../store";
 
 export const applicationInitialState: ApplicationState = {
-  isLoading: false,
+  isLoading: true,
+  isSubmitting: false,
+  hasSubmitted: false,
   data: null!
 };
 
@@ -22,8 +26,12 @@ const applicationReducer = (
   switch (action.type) {
     case CLEAR_APPLICATION:
       return applicationInitialState;
+    case SUBMIT_APPLICATION_REQUEST:
+      return { ...state, isSubmitting: true };
+    case SUBMIT_APPLICATION_SUCCESS:
+      return { ...state, isSubmitting: false, hasSubmitted: true, data: null };
     case FETCH_APPLICATION_REQUEST:
-      return { isLoading: true, data: null };
+      return { ...state, isLoading: true, data: null };
     case FETCH_APPLICATION_SUCCESS:
       const rawApplication: Application = action.payload;
       rawApplication.applicants?.sort(
@@ -34,7 +42,7 @@ const applicationReducer = (
         (a: ApplicationField, b: ApplicationField) =>
           a.applicationSequence >= b.applicationSequence ? 1 : -1
       );
-      return { isLoading: false, data: rawApplication };
+      return { ...state, isLoading: false, data: rawApplication };
     default:
       return state;
   }

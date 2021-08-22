@@ -1,6 +1,6 @@
 import React, { MouseEventHandler } from "react";
-import cn from "classnames";
 
+import { Button } from "../../atoms/button";
 import { User } from "../../models/user";
 import { UserType } from "../../models/user-type";
 
@@ -8,12 +8,6 @@ interface IUserPromotionTableRow {
   onboardUser: MouseEventHandler;
   user: User;
 }
-
-const buttonClassBase = "px-4 py-2 border rounded-md bg-indigo-500 text-white";
-const buttonClassHover =
-  "hover:bg-white hover:text-indigo-500 border-indigo-500";
-
-const buttonClassDisabled = "opacity-50 bg-blue-900 cursor-not-allowed";
 
 export const UserPromotionTableRow = ({
   onboardUser,
@@ -29,17 +23,11 @@ export const UserPromotionTableRow = ({
       <td className="p-4 text-right">{user.email}</td>
       <td className="p-4 text-right">{user.userType}</td>
       <td className="flex p-2 justify-around">
-        <button
-          disabled={isUserVisitor}
+        <Button
+          isDisabled={isUserVisitor}
           onClick={onboardUser}
-          className={cn(
-            buttonClassBase,
-            buttonClassHover,
-            isUserVisitor ? buttonClassDisabled : ""
-          )}
-        >
-          Promote User
-        </button>
+          text="Promote User"
+        />
       </td>
     </tr>
   );

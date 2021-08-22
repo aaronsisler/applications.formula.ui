@@ -10,6 +10,7 @@ export const CLEAR_APPLICATION = "CLEAR_APPLICATION";
 export const FETCH_APPLICATION_FAILURE = "FETCH_APPLICATION_FAILURE";
 export const FETCH_APPLICATION_REQUEST = "FETCH_APPLICATION_REQUEST";
 export const FETCH_APPLICATION_SUCCESS = "FETCH_APPLICATION_SUCCESS";
+export const SUBMIT_APPLICATION_REQUEST = "SUBMIT_APPLICATION_REQUEST";
 export const SUBMIT_APPLICATION_SUCCESS = "SUBMIT_APPLICATION_SUCCESS";
 
 //Action Creator
@@ -37,6 +38,12 @@ export const fetchApplicationSuccess: ActionCreator<AnyAction> = (
 export const fetchApplicationFailure: ActionCreator<AnyAction> = () => {
   return {
     type: FETCH_APPLICATION_FAILURE
+  };
+};
+
+export const submitApplicationRequest: ActionCreator<AnyAction> = () => {
+  return {
+    type: SUBMIT_APPLICATION_REQUEST
   };
 };
 
@@ -77,6 +84,7 @@ export const submitApplication: ActionCreator<
     _getState: any
   ): Promise<AnyAction> => {
     try {
+      dispatch(submitApplicationRequest());
       await new HttpClient().post(
         `application-submissions`,
         applicationSubmission
