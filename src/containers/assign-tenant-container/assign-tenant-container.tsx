@@ -10,35 +10,31 @@ import { Tenant } from "../../models/tenant";
 import { User } from "../../models/user";
 import { AdminState, AppState } from "../../store";
 import { UserTenant } from "../../models/user-tenant";
+import { Button } from "../../atoms/button";
 
 const baseOption = { label: "", value: "" };
-const buttonClassBase = "px-4 py-2 border rounded-md bg-indigo-500 text-white";
-const buttonClassHover =
-  "hover:bg-white hover:text-indigo-500 border-indigo-500";
-
-const buttonClassDisabled = "opacity-50 bg-blue-900 cursor-not-allowed";
 
 export const AssignTenantContainer = (): JSX.Element => {
   const { isLoading, tenants, users }: AdminState = useSelector(
     (state: AppState) => state.admin
   );
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
+  const dispatch = useDispatch();
   const [selectedTenantOption, setTenantOption] = useState(baseOption);
   const [selectedUserOption, setUserOption] = useState(baseOption);
-  const dispatch = useDispatch();
-  const includeUserTenant = async (userTenant: UserTenant) =>
-    dispatch(addUserTenant(userTenant));
-  const loadTenants = async () => dispatch(fetchTenants());
-  const loadUsers = async () => dispatch(fetchUsers());
 
   useEffect(() => {
     loadTenants();
     loadUsers();
   }, [dispatch]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  const includeUserTenant = async (userTenant: UserTenant) =>
+    dispatch(addUserTenant(userTenant));
+  const loadTenants = async () => dispatch(fetchTenants());
+  const loadUsers = async () => dispatch(fetchUsers());
 
   const assignUserTenant = () => {
     const userTenant: UserTenant = {
@@ -46,7 +42,12 @@ export const AssignTenantContainer = (): JSX.Element => {
       tenantName: selectedTenantOption.label,
       userId: selectedUserOption.value
     };
-    includeUserTenant(userTenant);
+    includeUserTenant(userTenant).then(clearOptions);
+  };
+
+  const clearOptions = () => {
+    setTenantOption(baseOption);
+    setUserOption(baseOption);
   };
 
   const handleTenantChange = (option: any) => {
@@ -57,13 +58,13 @@ export const AssignTenantContainer = (): JSX.Element => {
     setUserOption(option);
   };
 
-  const mapTenants = (tenants: Tenant[]) =>
+  const mapTenants = (tenants: Tenant[] = []) =>
     tenants.map((tenant: Tenant) => ({
       value: tenant.tenantId || "",
       label: tenant.tenantName || ""
     }));
 
-  const mapUsers = (users: User[]) =>
+  const mapUsers = (users: User[] = []) =>
     users.map((user: User) => ({
       value: user.userId,
       label: `${user.firstName} ${user.lastName} : ${user.email}`
@@ -71,32 +72,30 @@ export const AssignTenantContainer = (): JSX.Element => {
 
   return (
     <div className="pt-5 px-2 max-w-5xl">
-      <div className="">
-        <Select
-          value={selectedUserOption}
-          onChange={(option) => handleUserChange(option)}
-          options={mapUsers(users)}
-          placeholder="Select user"
-        />
-        <Select
-          value={selectedTenantOption}
-          onChange={(option) => handleTenantChange(option)}
-          options={mapTenants(tenants)}
-          placeholder="Select tenant"
-        />
+      <div className="grid md:grid-cols-2 gap-6 mb-6">
+        <div>
+          <Select
+            value={selectedUserOption}
+            onChange={(option) => handleUserChange(option)}
+            options={mapUsers(users)}
+            placeholder="Select user"
+          />
+        </div>
+        <div>
+          <Select
+            value={selectedTenantOption}
+            onChange={(option) => handleTenantChange(option)}
+            options={mapTenants(tenants)}
+            placeholder="Select tenant"
+          />
+        </div>
       </div>
-      <button
+      <Button
+        className="float-right"
+        isDisabled={!selectedUserOption?.value || !selectedTenantOption?.value}
         onClick={assignUserTenant}
-        className={cn(
-          buttonClassBase,
-          buttonClassHover,
-          selectedUserOption?.value && selectedTenantOption?.value
-            ? ""
-            : buttonClassDisabled
-        )}
-      >
-        Assign Tenant To User
-      </button>
+        text="Assign Tenant To User"
+      />
     </div>
   );
 };
