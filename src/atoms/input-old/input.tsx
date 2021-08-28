@@ -7,7 +7,6 @@ interface IInput {
   onBlur: FocusEventHandler;
   onChange: ChangeEventHandler;
   refProp: any;
-  type?: string;
 }
 
 const Input = ({
@@ -15,23 +14,18 @@ const Input = ({
   name,
   onBlur,
   onChange,
-  refProp,
-  type = "text"
+  refProp
 }: IInput): JSX.Element => (
-  <div className="relative h-10 mb-5 max-w-xs">
-    <label
-      htmlFor={name}
-      className="input__label absolute left-2 transition-all bg-white px-1"
-    >
-      {label}
+  <div className="input">
+    <label htmlFor={name} className="input__label">
+      <span className="input__span">{label}:&nbsp;</span>
     </label>
     <input
-      className="input__input h-full w-full transition-all border border-gray-600 px-2 rounded-sm"
       name={name}
       onBlur={onBlur}
       onChange={onChange}
       ref={refProp}
-      type={type}
+      type="text"
     />
   </div>
 );

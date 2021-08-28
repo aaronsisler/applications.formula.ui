@@ -22,3 +22,23 @@ a {
 main {
   height: 100vh;
 }
+
+// src/atoms/input for hovering label
+.input {
+  &__input {
+    border-width: 1px;
+    &:not(:focus) + label {
+      color: rgba(70, 70, 70, 1);
+    }
+    &:focus {
+      outline: none;
+      border-color: rgba(37, 99, 235, 1);
+    }
+  }
+  &__label {
+    top: 0%;
+    transform: translateY(-50%);
+    font-size: 11px;
+    color: rgba(37, 99, 235, 1);
+  }
+}

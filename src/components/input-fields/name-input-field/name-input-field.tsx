@@ -13,15 +13,13 @@ const NameInputField = (
   ref: any
 ): JSX.Element => {
   return (
-    <div className="name-input-field">
-      <Input
-        label={label}
-        name={name}
-        onBlur={onBlur}
-        onChange={onChange}
-        refProp={ref}
-      />
-    </div>
+    <Input
+      label={label}
+      name={name}
+      onBlur={onBlur}
+      onChange={onChange}
+      refProp={ref}
+    />
   );
 };
 
