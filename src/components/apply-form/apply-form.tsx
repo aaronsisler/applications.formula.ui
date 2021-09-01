@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 
 import { submitApplication } from "../../actions/application";
-import { ApplicationField } from "../../models/application-field";
-import { InputFieldComponentMapper } from "../../utils/input-field-component-mapper";
+import { ApplicationFormGroup } from "../../models/application-form-group";
 import { ApplicationSubmission } from "../../models/application-submission";
 import { ApplicationFieldData } from "../../models/application-field-data";
 import { ApplicationState, AppState } from "../../store";
 import { Button } from "../../atoms/button";
+import { FormGroupComponentMapper } from "../../utils/form-group-component-mapper";
 
 export const ApplyForm = (): JSX.Element => {
   const {
@@ -21,36 +21,37 @@ export const ApplyForm = (): JSX.Element => {
   const { data: application, isSubmitting }: ApplicationState = useSelector(
     (state: AppState) => state.application
   );
-  const { applicationId, applicationFields } = application || {};
+  const { applicationId, applicationFormGroups } = application || {};
 
   const dispatch = useDispatch();
 
   const onSubmit = (data: any) => {
-    const applicationFieldData: ApplicationFieldData[] = [];
+    console.log(data);
+    // const applicationFieldData: ApplicationFieldData[] = [];
 
-    applicationFields?.forEach((applicationField: ApplicationField) => {
-      applicationFieldData.push({
-        applicationFieldId: applicationField.applicationFieldId,
-        applicationFieldData: data[applicationField.inputFieldName]
-      });
-    });
+    // applicationFormGroups?.forEach((applicationFormGroup: ApplicationFormGroup) => {
+    //   applicationFieldData.push({
+    //     applicationFieldId: applicationField.applicationFieldId,
+    //     applicationFieldData: data[applicationField.inputFieldName]
+    //   });
+    // });
 
-    const applicationSubmission: ApplicationSubmission = {
-      applicationId,
-      applicationFieldData
-    };
+    // const applicationSubmission: ApplicationSubmission = {
+    //   applicationId,
+    //   applicationFieldData
+    // };
 
-    return dispatch(submitApplication(applicationSubmission));
+    // return dispatch(submitApplication(applicationSubmission));
   };
 
   return (
     <div className="apply-form px-10 py-16 ">
       <form className="apply-form__form">
-        {application?.applicationFields?.map(
-          (applicationField: ApplicationField) => (
-            <React.Fragment key={applicationField.applicationFieldId}>
-              {InputFieldComponentMapper.getInputField(
-                applicationField,
+        {applicationFormGroups?.map(
+          (applicationFormGroup: ApplicationFormGroup) => (
+            <React.Fragment key={applicationFormGroup.applicationFormGroupId}>
+              {FormGroupComponentMapper.getFormGroup(
+                applicationFormGroup.formGroupType,
                 register
               )}
               <br />

@@ -8,7 +8,7 @@ interface INameInputField {
   onChange: ChangeEventHandler;
 }
 
-const NameInputField = (
+export const NameInputField = (
   { label, name, onBlur, onChange }: INameInputField,
   ref: any
 ): JSX.Element => {
@@ -22,5 +22,3 @@ const NameInputField = (
     />
   );
 };
-
-export { NameInputField };

@@ -1,3 +1,3 @@
 export const API_SERVICE_URL = "https://formula.otterandcow.com/beta";
 export const OAUTH_PROVIDER_URL =
-  "809077609430-opp5djnrm31l5hkhdpaujdfhp897hgao.apps.googleusercontent.com";
+  "266021661264-pmmtnu49uojoan41jn06ts08re7jvhh8.apps.googleusercontent.com";
