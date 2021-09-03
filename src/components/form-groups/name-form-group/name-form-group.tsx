@@ -30,7 +30,7 @@ const buildRegister = (
   return { props: { label: inputFieldLabel, name, onBlur, onChange }, ref };
 };
 
-export const NameFormGroup = (register: any): JSX.Element => {
+export const NameFormGroup = (register: INameFormGroup): JSX.Element => {
   const lastNameRegister = buildRegister("Last Name:", "name,last", register);
   const firstNameRegister = buildRegister(
     "First Name:",

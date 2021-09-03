@@ -64,7 +64,7 @@ export const fetchApplication: ActionCreator<
     try {
       dispatch(fetchApplicationRequest());
       const queryParams = withFields
-        ? "?withFormGroups=true"
+        ? "?withFormDetails=true"
         : "?withApplicants=true";
       const application: Application = await new HttpClient().get(
         `applications/${applicationId}/${queryParams}`
